@@ -319,7 +319,7 @@
 <!-- ================= HERO ================= -->
 <section class="hero">
   <div class="album">
-    <div class="label-row mono"><span>LD-AGNT-2026</span><span>STEREO 33⅓</span></div>
+    <div class="label-row mono"><span>LD-RBAC-2026</span><span>STEREO 33⅓</span></div>
     <div class="chrome">GONFALON<br>RBAC</div>
     <div class="subtitle">How LaunchDarkly permissions actually work &mdash; and where an agent <span class="mono">origin</span> axis plugs in</div>
     <div class="meta mono"><span>W/ SOUNDTRACK</span><span>NOV 19 2026</span><span>SIDE A/B</span></div>
@@ -468,7 +468,7 @@
       <h4>The net has holes &mdash; and reads have no net</h4>
       <ul>
         <li><span class="mono">EnsureAccessCheck</span> only guards unsafe methods: GET, HEAD, and REPORT are excluded by <span class="mono">isUnsafeMethod</span>, so read routes carry no enforcement net at all <span class="cite">access_checker_required.go:151-159, 242-243</span>.</li>
-        <li>Its <span class="mono">knownOffenders</span> list includes <span class="mono">Api2PatchGlobalFlagByKey</span> and <span class="mono">Api2PatchSegmentByKey</span> &mdash; flag and segment PATCH handlers that are heavily authorized yet each have at least one reachable &lt;400 path with no access check, under SEC-8951 / SEC-8975&ndash;8978 triage <span class="cite">access_checker_required.go:194-198</span>.</li>
+        <li>Its <span class="mono">knownOffenders</span> list includes <span class="mono">Api2PatchGlobalFlagByKey</span> and <span class="mono">Api2PatchSegmentByKey</span> &mdash; flag and segment PATCH handlers that are heavily authorized yet each have at least one reachable &lt;400 path with no access check, under internal security triage <span class="cite">access_checker_required.go:194-198</span>.</li>
         <li>Consequence: an org promise like "agents can never change production flags" is only as strong as that list. Named work item: a <strong>scoped route-coverage audit</strong> before the org policy ships &mdash; the doc &sect;4 aside ("a few screens still needing a permission-check audit") is exactly this, and it belongs in the plan as a deliverable, not an aside.</li>
       </ul>
     </div>
@@ -490,7 +490,7 @@
       <ul>
         <li>No <span class="mono">useMcp</span> action or permission anywhere.</li>
         <li>No <span class="mono">ld-mcp-server</span> OAuth client &mdash; MCP clients today are anonymous DCR public clients, not a named first-party client.</li>
-        <li>No RFC 8693 token exchange: advertised grant types are only <span class="mono">authorization_code</span>, <span class="mono">refresh_token</span>, <span class="mono">client_credentials</span> <span class="cite">internal/trust/oauth2/web/well_known_handler.go:62-66</span>. AGNT-371's swap would be genuinely new.</li>
+        <li>No RFC 8693 token exchange: advertised grant types are only <span class="mono">authorization_code</span>, <span class="mono">refresh_token</span>, <span class="mono">client_credentials</span> <span class="cite">internal/trust/oauth2/web/well_known_handler.go:62-66</span>. A token-exchange swap would be genuinely new.</li>
         <li>No multi-secret rotation: <span class="mono">Client</span> holds a single <span class="mono">SecretEncrypted</span> <span class="cite">internal/trust/oauth2/client.go:60-91</span>, and DCR rejects confidential auth methods outright <span class="cite">internal/trust/oauth2/web/dcr_handler_test.go:120-125</span>.</li>
         <li>No org-level "agent policy" model or store.</li>
       </ul>
@@ -518,10 +518,10 @@
       <h4>The fork in the road (details + pros/cons in Track 07, D1/D4)</h4>
       <ul>
         <li><strong>Shape A &mdash; origin as a statement condition</strong> (AWS IAM Condition analogue): statements gain an optional origin matcher, so one policy language can say <span class="mono">allow updateOn on proj/*:env/production when origin=mcp</span>. Maximum expressive power, maximum blast radius: the Statement struct <span class="cite">custom_role.go:178-192</span>, every evaluator, RoleBuilder UI, access-summary, token inline roles, and the custom-role migration system all learn a new concept. And the blast radius crosses repos: gonfalon statements are converted into the shared <span class="mono">foundation/authorization</span> engine for access reps (<span class="mono">ConvertStatements</span>, <span class="cite">internal/access_checker/auth_builders.go:22-44</span>), so a statement-level origin condition must land in the foundation module and every rep consumer, not just here.</li>
-        <li><strong>Shape B &mdash; origin as a parallel policy layer</strong>: statements stay untouched; a separate "agent policy" document is evaluated only when the request's origin=mcp, composed as a wrapper/intersection at <span class="mono">ForRequestAuth</span> <span class="cite">builders.go:16-64</span> &mdash; the same mechanical pattern as <span class="mono">usageExceededAccessChecker</span>. Tiny blast radius, but two policy languages to reason about, and the "same permissions, through the MCP" dream is only approximated. A gonfalon-only wrapper also governs nothing evaluated elsewhere &mdash; any o11y-local evaluation (AGNT-409's territory) stays out of its reach.</li>
+        <li><strong>Shape B &mdash; origin as a parallel policy layer</strong>: statements stay untouched; a separate "agent policy" document is evaluated only when the request's origin=mcp, composed as a wrapper/intersection at <span class="mono">ForRequestAuth</span> <span class="cite">builders.go:16-64</span> &mdash; the same mechanical pattern as <span class="mono">usageExceededAccessChecker</span>. Tiny blast radius, but two policy languages to reason about, and the "same permissions, through the MCP" dream is only approximated. A gonfalon-only wrapper also governs nothing evaluated elsewhere &mdash; any o11y-local evaluation (observability-side enforcement) stays out of its reach.</li>
       </ul>
       <h4>The catch neither shape escapes</h4>
-      <p>Origin is only knowable if the token says so. OAuth tokens do (client_id / audience). <strong><span class="mono">api-…</span> access tokens forwarded through the MCP are indistinguishable from scripts</strong> &mdash; which is precisely the hole AGNT-371's token exchange exists to close, and why it's a hard prerequisite for P0's promise rather than an implementation detail (see D2).</p>
+      <p>Origin is only knowable if the token says so. OAuth tokens do (client_id / audience). <strong><span class="mono">api-…</span> access tokens forwarded through the MCP are indistinguishable from scripts</strong> &mdash; which is precisely the hole the proposed token exchange exists to close, and why it's a hard prerequisite for P0's promise rather than an implementation detail (see D2).</p>
     </div>
   </article>
 
@@ -547,7 +547,7 @@
       </ul>
       <h4>P1d &mdash; rollout shape</h4>
       <ul>
-        <li>Precedent exists: AGNT-371's "ships dark, flags default-off" pattern. The kill switch and org policy should launch the same way &mdash; present, inert, opt-in.</li>
+        <li>Precedent exists: the established "ships dark, flags default-off" pattern. The kill switch and org policy should launch the same way &mdash; present, inert, opt-in.</li>
         <li>Neither the doc nor this report previously answered: <strong>what happens to orgs that never pick a default before enforcement day?</strong> Least-surprise answer: default-on (= today's behavior) with loud admin UI; default-off is safer but silently breaks working harness setups. Pick before P1b ships, not after.</li>
       </ul>
     </div>
@@ -591,7 +591,7 @@
               <li>Works across services (observability re-checks) without each service re-deriving origin</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Requires AGNT-371 token exchange for api-… tokens &mdash; the parked, un-built dependency</li>
+              <li>Requires the planned token exchange for api-… tokens &mdash; the parked, un-built dependency</li>
               <li>OAuth-side only until confidential-client + rotation work lands (zero multi-secret support today, <span class="cite">client.go:60-91</span>)</li>
             </ul></div>
           </div>
@@ -612,16 +612,16 @@
             <div class="cons"><b>CONS</b><ul>
               <li>api-… token users are a silent, uncontrolled lane through the MCP &mdash; the org switch lies to exactly the admins it's sold to</li>
               <li>Two-tier enforcement is hard to explain in UI and docs</li>
-              <li>Every existing OAuth token is audience-less until legacy revocation lands (AGNT-372, unstarted) &mdash; "audience already bound" holds only for newly minted tokens</li>
-              <li>Gonfalon REST still accepts MCP-audience tokens directly today (AGNT-398) &mdash; "MCP audience &rArr; came via MCP" is false, so audience alone misclassifies direct API calls made with an MCP-minted token</li>
+              <li>Every existing OAuth token is audience-less until the legacy-token revocation work lands (unstarted) &mdash; "audience already bound" holds only for newly minted tokens</li>
+              <li>Gonfalon REST still accepts MCP-audience tokens directly today (a known open gap) &mdash; "MCP audience &rArr; came via MCP" is false, so audience alone misclassifies direct API calls made with an MCP-minted token</li>
               <li>Vega's hosted-MCP tokens fall back to the factory client ID per environment until <span class="mono">EnsureVegaOAuthClient</span> succeeds (<span class="cite">oauth_token.go:64-73</span>) &mdash; origin=vega silently classifies as factory</li>
             </ul></div>
           </div>
           <div class="opt">
-            <div class="oname">B. AGNT-371 token exchange first (MCP swaps every caller token for an MCP-stamped one)</div>
+            <div class="oname">B. Token exchange first (MCP swaps every caller token for an MCP-stamped one)</div>
             <div class="pros"><b>PROS</b><ul>
               <li>One uniform origin signal for OAuth <em>and</em> api-… tokens; the policy applies to 100% of MCP traffic</li>
-              <li>Kills the AGNT-398 time-boxed exception on schedule instead of letting it fossilize</li>
+              <li>Kills the time-boxed exception on schedule instead of letting it fossilize</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
               <li>Real prerequisites: first confidential server client (<span class="mono">ld-mcp-server</span>), dual-secret rotation (doesn't exist, <span class="cite">client.go:60-64</span>), exchange handler (doesn't exist, <span class="cite">well_known_handler.go:62-66</span>)</li>
@@ -636,7 +636,7 @@
               <li>Security review will (correctly) eat this alive</li>
             </ul></div>
           </div>
-          <div class="verdict">B is the honest version of the feature; A buys less than it first claims &mdash; the crypto is free, but the identification stays porous until AGNT-372 and AGNT-398 land, so label it loudly "OAuth connections only" if it ships. The prerequisite set is bigger than AGNT-371: AGNT-371, 372, 396, 397, 409, and 410 all sit at NEEDS TRIAGE, and 409 (o11y refusing MCP-audience tokens) is the cross-service half of this same problem. C should be rejected now so it stops reappearing.</div>
+          <div class="verdict">B is the honest version of the feature; A buys less than it first claims &mdash; the crypto is free, but the identification stays porous until legacy-token revocation and the direct-token gap are closed, so label it loudly "OAuth connections only" if it ships. The prerequisite set is bigger than the token exchange alone: the full prerequisite chain is still untriaged, and the o11y piece (refusing MCP-audience tokens) is the cross-service half of this same problem. C should be rejected now so it stops reappearing.</div>
         </div>
       </div>
 
@@ -760,7 +760,7 @@
               <li>Vega's hosted-MCP tokens (<span class="cite">factory_tokens oauth_token.go:64-73</span>) must be classified as vega, not mcp, at identification time</li>
             </ul></div>
           </div>
-          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (Vadim, Slack, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints &mdash; and prioritizing the classification fix.</div>
+          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints &mdash; and prioritizing the classification fix.</div>
         </div>
       </div>
 
@@ -814,7 +814,7 @@
         <li><strong>Comment #6 (specificity wins, role first) vs doc §2 (any block wins):</strong> the code says neither exists today for cross-source resolution &mdash; today it's flat any-allow (<span class="cite">types.go:961-982</span>). Both versions are new code; D3 is the real decision. Once D3 is picked, §2 and the walkthrough's evaluation order (comment #6's anchor) rewrite themselves.</li>
         <li><strong>Comment #1 (explain the schema):</strong> Track 01 is the explanation, and its wire example for the doc is: <span class="mono">{"effect":"allow","actions":["updateOn"],"resources":["proj/*:env/production:flag/*"]}</span> &mdash; which also answers <strong>comment #4</strong> ("what exactly would the admin say"): for "no production flag changes via agents," the org agent-policy statement is <span class="mono">{"effect":"deny","actions":["update*"],"resources":["proj/*:env/production:flag/*"]}</span> in Shape B, or the same with an origin condition in Shape A.</li>
         <li><strong>Comment #8 (P0/P1 split):</strong> the code supports the split cleanly &mdash; P0 (origin-aware role evaluation) is D1+D4; the P1 trio is D3 (policy), the default branch in the agent-policy checker (P1b), and the AccountLite clone (P1c). They're genuinely separable: P1c doesn't need P0's evaluator at all if it keys off caller-identity + token stamps.</li>
-        <li><strong>Comment #7 (prerequisite section):</strong> justified &mdash; D2 shows identification is <em>the</em> load-bearing prerequisite, and AGNT-371 is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
+        <li><strong>Comment #7 (prerequisite section):</strong> justified &mdash; D2 shows identification is <em>the</em> load-bearing prerequisite, and the token-exchange work is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
         <li><strong>Comment #3 (link-check § refs):</strong> still a mechanical pass to do when the doc is edited; the "§5" anchor survived, but every cross-ref should become a real link in the same edit.</li>
       </ul>
     </div>
@@ -1040,6 +1040,21 @@
     requestAnimationFrame(frame);
   }
   frame();
+})();
+</script>
+
+<script>
+(function () {
+  if (location.protocol === 'file:') return;
+  var baseline = null;
+  var check = function () {
+    fetch(location.href, { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (text) {
+        if (text == null) return;
+        if (baseline === null) { baseline = text; } else if (text !== baseline) { location.reload(); }
+      }).catch(function () {});
+  };
+  try { check(); setInterval(check, 15000); } catch (e) {}
 })();
 </script>
 
