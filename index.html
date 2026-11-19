@@ -284,6 +284,7 @@
     border-radius: 10px 14px 11px 15px / 13px 10px 14px 11px;
     font-size: 13px;
   }
+  .win95 .verdict.decided { border: 2px solid var(--seafoam-deep); }
   .win95 .cite { color: var(--ink); background: #dde4f5; }
 
   /* ---------- LINER NOTES ---------- */
@@ -299,6 +300,7 @@
   .liner h4 { color: var(--terra); letter-spacing: .3em; margin-bottom: 14px; }
   .liner li { margin: 6px 0; list-style: none; padding-left: 22px; position: relative; }
   .liner li::before { content: "–"; position: absolute; left: 0; color: var(--salmon); }
+  .liner .cite { white-space: normal; overflow-wrap: anywhere; }
 
   footer {
     margin-top: 90px; text-align: center;
@@ -310,6 +312,9 @@
   footer .music-credit { display: block; margin-top: 14px; font-size: 10px; letter-spacing: .2em; }
   footer .music-credit a { color: var(--peri-deep); text-decoration: none; border-bottom: 1px dotted var(--peri-deep); }
   footer .music-credit a:hover { color: var(--terra); border-color: var(--terra); }
+  footer .inspo-credit { display: block; margin-top: 8px; font-size: 10px; letter-spacing: .2em; }
+  footer .inspo-credit a { color: var(--peri-deep); text-decoration: none; border-bottom: 1px dotted var(--peri-deep); }
+  footer .inspo-credit a:hover { color: var(--terra); border-color: var(--terra); }
 </style>
 </head>
 <body>
@@ -328,6 +333,7 @@
     <div class="np-label mono"><span>NOW PLAYING</span></div>
     <iframe src="https://bandcamp.com/EmbeddedPlayer/album=2523113692/size=small/bgcol=f6e7d7/linkcol=b14e32/transparent=true/" seamless loading="lazy" title="記憶ONLINE by Macroblank — Bandcamp player"><a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE by Macroblank</a></iframe>
     <div class="np-credit">Music: <a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE</a> by <a href="https://macroblank.bandcamp.com/">Macroblank</a> &mdash; all rights reserved, via official Bandcamp embed</div>
+    <div class="np-credit">Free-use dept: "I am unable to give permission for using this work &mdash; everyone owns it just as much as I do" &mdash; <a href="https://macroblank.net/pages/contact">Macroblank, contact page</a> (a refusal to license, not a license)</div>
   </div>
 </section>
 
@@ -533,6 +539,7 @@
       <ul>
         <li>Mechanically this is a third checker composed at <span class="mono">BuildRequestAuthAccessChecker</span> <span class="cite">builders.go:230-282</span> &mdash; the only question is its combination law: hard ceiling (intersection, <span class="cite">types.go:900-922</span>) vs specificity-ranked (new code). That is D3, the biggest decision in the whole effort.</li>
         <li>Storage can literally be the custom_roles machinery with an account-scoped marker &mdash; statements, validation, RoleBuilder UI, and the presets system all come along for free.</li>
+        <li>Access-summary honesty ships with it: the member/team access-summary must gain a <strong>per-origin evaluation</strong> (direct vs via-MCP) &mdash; a named work item delivered with the org policy, not discovered in QA.</li>
       </ul>
       <h4>P1b &mdash; org-chosen default (default-on vs default-off)</h4>
       <ul>
@@ -677,7 +684,7 @@
               <li>Cannot express "no one gets X" &mdash; the literal headline feature of P1a. Probably disqualifying on its own.</li>
             </ul></div>
           </div>
-          <div class="verdict">This is the decision to make <em>before</em> the doc comments can be resolved &mdash; comment #6 and §2 currently describe two different products. B is your stated intent; scope it to the origin axis only (don't re-order plain RBAC) to contain the blast radius. Two scoping sentences make B safe: <strong>specificity orders policy sources only &mdash; token limits remain a hard ceiling outside the ordering</strong> (<span class="cite">types.go:900-922</span>), otherwise "member beats org" silently becomes "member beats token" and the member&cap;token invariant inverts. And the doc's parked team-vs-team tie-breaker needs an explicit same-rank rule &mdash; today it falls back to flat any-allow (Track 02).</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; the org agent-policy composes as an <strong>intersection (hard ceiling)</strong>, reusing <span class="mono">intersectionAccessChecker</span> <span class="cite">types.go:900-922</span>. Member-override is rejected; "block one contractor" rides plain RBAC (role assignment), not the policy. Token limits remain a hard ceiling outside the ordering (<span class="cite">types.go:900-922</span>) &mdash; under intersection there is no ordering for them to sit outside of, and the member&cap;token invariant is untouched. The parked team-vs-team tie-breaker is moot: with a hard ceiling, no same-rank specificity rule is needed.</div>
         </div>
       </div>
 
@@ -704,7 +711,7 @@
               <li>Still needs the baseline + migration answers anyway</li>
             </ul></div>
           </div>
-          <div class="verdict">A, with a better name than <span class="mono">useMcp</span> (your comment #2): candidates &mdash; <span class="mono">useHostedMcp</span>, <span class="mono">connectViaMcp</span>, <span class="mono">useAgentAccess</span>. Name after the thing the member does, not the server.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; a normal action on the account resource. Naming still open: <span class="mono">useHostedMcp</span>, <span class="mono">connectViaMcp</span>, and <span class="mono">useAgentAccess</span> remain candidates. Name after the thing the member does, not the server.</div>
         </div>
       </div>
 
@@ -722,7 +729,7 @@
             <div class="pros"><b>PROS</b><ul><li>One rule-book; smallest v1</li></ul></div>
             <div class="cons"><b>CONS</b><ul><li>Breaks legitimate "agent runs my nightly automation" use cases; hard to walk back gracefully</li></ul></div>
           </div>
-          <div class="verdict">A. Note the doc's §5 already half-says this ("service tokens follow the limits set when the token was created") &mdash; just make the org policy an additional ceiling, never an expansion.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; service tokens follow token policy &cap; org agent policy (no member layer). The doc's §5 already half-says this ("service tokens follow the limits set when the token was created") &mdash; the org policy is an additional ceiling, never an expansion.</div>
         </div>
       </div>
 
@@ -740,7 +747,7 @@
             <div class="pros"><b>PROS</b><ul><li>No new availability coupling</li></ul></div>
             <div class="cons"><b>CONS</b><ul><li>During an incident is exactly when an admin reaches for the faucet; a faucet that drips when the plumbing is broken is a bad faucet</li></ul></div>
           </div>
-          <div class="verdict">Fail-closed for the switch check itself, but read account state from the same cached path the request already uses (no new lookup), and document the ~1-2 min propagation from token cache (<span class="cite">access_tokens/redis/finder.go</span>) + MCP-side caller-identity cache. Consider an explicit cache-bust on flip.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; fail-closed (can't load account state ⇒ deny MCP). Read account state from the same cached path the request already uses (no new lookup), and document the ~1-2 min propagation from token cache (<span class="cite">access_tokens/redis/finder.go</span>) + MCP-side caller-identity cache. Consider an explicit cache-bust on flip.</div>
         </div>
       </div>
 
@@ -760,25 +767,7 @@
               <li>Vega's hosted-MCP tokens (<span class="cite">factory_tokens oauth_token.go:64-73</span>) must be classified as vega, not mcp, at identification time</li>
             </ul></div>
           </div>
-          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints &mdash; and prioritizing the classification fix.</div>
-        </div>
-      </div>
-
-      <div class="win95">
-        <div class="titlebar"><span>D8 &mdash; access-summary honesty</span></div>
-        <div class="pane">
-          <p class="q">The member/team access-summary service (<span class="cite">internal/access_summary/internal/service/service.go:150-205</span>) evaluates the union of direct roles + team roles + grants. With an origin axis, "what can this member do?" becomes "…via which origin?"</p>
-          <div class="opt">
-            <div class="oname">Options &amp; trade-offs</div>
-            <div class="pros"><b>MINIMUM VIABLE</b><ul>
-              <li>Add a per-origin section: evaluate the summary twice (direct / via-MCP) using the same ForMember machinery + the agent-policy wrapper &mdash; the service already builds checkers from the same inputs</li>
-            </ul></div>
-            <div class="cons"><b>COST OF SKIPPING IT</b><ul>
-              <li>UI promises access the API denies &mdash; the exact failure the doc §2 calls out as disqualifying for "any block wins"-style designs</li>
-              <li>Admins debugging "why was my agent denied?" have no surface to answer it</li>
-            </ul></div>
-          </div>
-          <div class="verdict">Not optional; scope it into P1a rather than discovering it in QA.</div>
+          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints &mdash; and prioritizing the classification fix. <strong>Still open:</strong> awaiting the owner's call after Vega-team outreach.</div>
         </div>
       </div>
 
@@ -798,7 +787,7 @@
               <li>Pre-flight is advisory: a policy flip mid-plan still 403s at execution (TOCTOU). The 403 stays as backstop; pre-flight just makes it rare</li>
             </ul></div>
           </div>
-          <div class="verdict">Wire pre-flight into the hosted MCP's mutating tools when the org policy ships; don't ship the policy without it.</div>
+          <div class="verdict decided"><strong>PUNTED:</strong> deferred &mdash; no pre-flight wiring now; write-permission holders could already hit the same partial-application wart with an API key today. But the org-policy design must avoid choices that would preclude adding a pre-flight hook later.</div>
         </div>
       </div>
 
@@ -811,7 +800,7 @@
     <div class="track-body">
       <ul>
         <li><strong>Comment #5 ("AI tool" &rarr; harness):</strong> adopted &mdash; a member connects to the hosted MCP through their chosen <strong>harness</strong>, and P0's roles are "applicable by harness." It's the doc's term of art, and this report now uses it.</li>
-        <li><strong>Comment #6 (specificity wins, role first) vs doc §2 (any block wins):</strong> the code says neither exists today for cross-source resolution &mdash; today it's flat any-allow (<span class="cite">types.go:961-982</span>). Both versions are new code; D3 is the real decision. Once D3 is picked, §2 and the walkthrough's evaluation order (comment #6's anchor) rewrite themselves.</li>
+        <li><strong>Comment #6 (specificity wins, role first) vs doc §2 (any block wins):</strong> resolved &mdash; <strong>the hard ceiling won</strong> (D3, Option A): the org agent-policy composes as an intersection, reusing the code's existing member&cap;token pattern, and member-override of the org policy is rejected. The doc's §2 ("any block wins") lands closest to the shipped answer; §2 and the walkthrough's evaluation order (comment #6's anchor) rewrite themselves accordingly.</li>
         <li><strong>Comment #1 (explain the schema):</strong> Track 01 is the explanation, and its wire example for the doc is: <span class="mono">{"effect":"allow","actions":["updateOn"],"resources":["proj/*:env/production:flag/*"]}</span> &mdash; which also answers <strong>comment #4</strong> ("what exactly would the admin say"): for "no production flag changes via agents," the org agent-policy statement is <span class="mono">{"effect":"deny","actions":["update*"],"resources":["proj/*:env/production:flag/*"]}</span> in Shape B, or the same with an origin condition in Shape A.</li>
         <li><strong>Comment #8 (P0/P1 split):</strong> the code supports the split cleanly &mdash; P0 (origin-aware role evaluation) is D1+D4; the P1 trio is D3 (policy), the default branch in the agent-policy checker (P1b), and the AccountLite clone (P1c). They're genuinely separable: P1c doesn't need P0's evaluator at all if it keys off caller-identity + token stamps.</li>
         <li><strong>Comment #7 (prerequisite section):</strong> justified &mdash; D2 shows identification is <em>the</em> load-bearing prerequisite, and the token-exchange work is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
@@ -844,6 +833,7 @@
   <footer>
     PRODUCED IN THE GONFALON REPO &mdash; VERIFIED AGAINST MAIN, NOV 19 2026
     <span class="music-credit">MUSIC: <a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE</a> &mdash; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> &mdash; ALL RIGHTS RESERVED</span>
+    <span class="inspo-credit">AESTHETIC LINEAGE: <a href="https://masonlindroth.com/">HYLICS (MASON LINDROTH)</a> FOR THE CLAY LOOK &mdash; <a href="https://en.wikipedia.org/wiki/Jean_Giraud">MOEBIUS (JEAN GIRAUD)</a> FOR LIGNE CLAIRE INK OUTLINES &mdash; VAPORWAVE &amp; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> FOR PALETTE &amp; MOOD &mdash; VINYL LP PACKAGING FOR THE SIDE A/B + STEREO 33⅓ FRAMING &mdash; CLASSIC ORDERED DITHERING + FBM NOISE FOR THE SHADER TEXTURE</span>
   </footer>
 </div>
 
