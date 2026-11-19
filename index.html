@@ -315,7 +315,36 @@
   footer .inspo-credit { display: block; margin-top: 8px; font-size: 10px; letter-spacing: .2em; }
   footer .inspo-credit a { color: var(--peri-deep); text-decoration: none; border-bottom: 1px dotted var(--peri-deep); }
   footer .inspo-credit a:hover { color: var(--terra); border-color: var(--terra); }
+
+  /* ---------- TABS ---------- */
+  .tabbar {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; gap: 18px;
+    margin: 4px auto 0; padding: 0 16px;
+  }
+  .tab {
+    font-family: 'Courier New', monospace;
+    font-size: 13px; font-weight: bold; letter-spacing: .3em;
+    padding: 11px 30px 10px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 2.5px solid var(--ink);
+    border-radius: 46px 30px 48px 32px / 30px 44px 32px 46px;
+    box-shadow: 5px 5px 0 rgba(46,33,64,.85);
+    cursor: pointer;
+  }
+  .tab:nth-child(2) { border-radius: 30px 46px 32px 48px / 44px 30px 46px 32px; }
+  .tab:hover { color: var(--terra); }
+  .tab.active {
+    background: linear-gradient(90deg, var(--peach), var(--rose));
+    color: var(--ink);
+  }
+  .tabpane[hidden] { display: none; }
+  .tldr .side-intro { margin-top: 54px; }
+  .track-body a { color: var(--terra); text-decoration: none; border-bottom: 1px dotted var(--terra); }
+  .track-body a:hover { color: var(--seafoam-deep); border-color: var(--seafoam-deep); }
 </style>
+<noscript><style>.tabpane[hidden] { display: block !important; }</style></noscript>
 </head>
 <body>
 
@@ -337,6 +366,87 @@
   </div>
 </section>
 
+<div class="tabbar" role="tablist" aria-label="Report view">
+  <button class="tab active" id="tab-tldr" type="button" role="tab" aria-selected="true" aria-controls="pane-tldr">TL;DR</button>
+  <button class="tab" id="tab-full" type="button" role="tab" aria-selected="false" aria-controls="pane-full">FULL LP</button>
+</div>
+
+<div id="pane-tldr" class="tabpane">
+<div class="wrap tldr">
+
+  <p class="side-intro">The 90-second version, for a busy technical manager.</p>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 01</span><h3>What this <em>is</em></h3></div>
+    <div class="track-body">
+      <p>Orgs want control over what AI agents can do through LaunchDarkly's hosted MCP. The proposal adds an <strong>origin</strong> axis to the existing permission check &mdash; <span class="mono">isAllowed(member, action)</span> becomes <span class="mono">isAllowed(member, action, origin)</span> &mdash; plus org-level controls on top. It reuses the RBAC system admins already know: same roles, same teams, same policy documents.</p>
+    </div>
+  </article>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 02</span><h3>The <em>shape</em></h3></div>
+    <div class="track-body">
+      <ul>
+        <li><strong>P0</strong> &mdash; origin-aware permissions, delivered through the existing roles/teams policy system.</li>
+        <li><strong>P1</strong> &mdash; three separate features: an org-wide agent policy ("agents can never X"), an org-chosen default, and an org kill switch.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 03</span><h3>The <em>decisions</em></h3></div>
+    <div class="track-body">
+      <table class="laws">
+        <tr><th>Call</th><th>Decision</th></tr>
+        <tr><td>Precedence</td><td><strong>Hard ceiling</strong> &mdash; the org policy is a cap, not a suggestion; member exceptions ride normal roles.</td></tr>
+        <tr><td>The permission itself</td><td>A normal action on the account resource (name TBD).</td></tr>
+        <tr><td>Service tokens</td><td>Capped by token limits &cap; org policy.</td></tr>
+        <tr><td>Kill switch</td><td><strong>Fails closed.</strong></td></tr>
+      </table>
+    </div>
+  </article>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 04</span><h3>Open <em>items</em></h3></div>
+    <div class="track-body">
+      <ul>
+        <li>Vega classification &mdash; awaiting Vega-team outreach.</li>
+        <li>The permission's name.</li>
+        <li>What default applies to orgs that never choose one before enforcement.</li>
+        <li>The token-exchange prerequisite chain &mdash; still untriaged.</li>
+        <li>A route-coverage audit before the org policy ships &mdash; some flag/segment PATCH paths have known authorization gaps today.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 05</span><h3><em>Progress</em></h3></div>
+    <div class="track-body">
+      <table class="laws">
+        <tr><th>Item</th><th>Status</th><th>Notes</th></tr>
+        <tr><td>Origin identification via OAuth</td><td>Partial</td><td>Works for new tokens only</td></tr>
+        <tr><td>Token exchange for api-… tokens</td><td>Not started</td><td>Prerequisite chain untriaged</td></tr>
+        <tr><td>P0 evaluator change</td><td>Not started</td><td>Decided shape</td></tr>
+        <tr><td>Org agent policy</td><td>Not started</td><td>Precedence decided</td></tr>
+        <tr><td>Kill switch</td><td>Not started</td><td>Pattern chosen, mirrors an existing org switch</td></tr>
+        <tr><td>Access-summary per-origin view</td><td>Not started</td><td>Named work item</td></tr>
+        <tr><td>Route-coverage audit</td><td>Not started</td><td>Required before org policy ships</td></tr>
+        <tr><td>Vega as its own origin</td><td>Open</td><td>Live in production, misclassified today</td></tr>
+      </table>
+    </div>
+  </article>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 06</span><h3>Read <em>more</em></h3></div>
+    <div class="track-body">
+      <p><a href="https://launchdarkly.atlassian.net/wiki/spaces/~712020149565712c1a4e4b8113d329723d0fa3/pages/5517639783">The full plan doc (Atlassian)</a> &mdash; and the FULL LP tab above has every citation, file path, and line number.</p>
+    </div>
+  </article>
+
+</div>
+</div>
+
+<div id="pane-full" class="tabpane" hidden>
 <div class="wrap">
 
   <!-- ================= SIDE A ================= -->
@@ -836,6 +946,7 @@
     <span class="inspo-credit">AESTHETIC LINEAGE: <a href="https://masonlindroth.com/">HYLICS (MASON LINDROTH)</a> FOR THE CLAY LOOK &mdash; <a href="https://en.wikipedia.org/wiki/Jean_Giraud">MOEBIUS (JEAN GIRAUD)</a> FOR LIGNE CLAIRE INK OUTLINES &mdash; VAPORWAVE &amp; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> FOR PALETTE &amp; MOOD &mdash; VINYL LP PACKAGING FOR THE SIDE A/B + STEREO 33⅓ FRAMING &mdash; CLASSIC ORDERED DITHERING + FBM NOISE FOR THE SHADER TEXTURE</span>
   </footer>
 </div>
+</div>
 
 <script>
 (function () {
@@ -1045,6 +1156,33 @@
       }).catch(function () {});
   };
   try { check(); setInterval(check, 15000); } catch (e) {}
+})();
+</script>
+
+<script>
+(function () {
+  var tabs = { tldr: document.getElementById('tab-tldr'), full: document.getElementById('tab-full') };
+  var panes = { tldr: document.getElementById('pane-tldr'), full: document.getElementById('pane-full') };
+  function show(name, updateHash) {
+    var other = name === 'tldr' ? 'full' : 'tldr';
+    panes[name].hidden = false; panes[other].hidden = true;
+    tabs[name].classList.add('active'); tabs[other].classList.remove('active');
+    tabs[name].setAttribute('aria-selected', 'true'); tabs[other].setAttribute('aria-selected', 'false');
+    if (updateHash) history.replaceState(null, '', '#' + name);
+  }
+  tabs.tldr.addEventListener('click', function () { show('tldr', true); window.scrollTo(0, 0); });
+  tabs.full.addEventListener('click', function () { show('full', true); window.scrollTo(0, 0); });
+  window.addEventListener('hashchange', function () {
+    if (location.hash === '#full') show('full', false);
+    else if (location.hash === '#tldr') show('tldr', false);
+  });
+  var h = location.hash;
+  var fullish = h === '#full' || /^#t\d/.test(h) || h.indexOf('#side') === 0;
+  show(fullish ? 'full' : 'tldr', false);
+  if (fullish && h !== '#full') {
+    var el = document.getElementById(h.slice(1));
+    if (el) el.scrollIntoView();
+  }
 })();
 </script>
 
