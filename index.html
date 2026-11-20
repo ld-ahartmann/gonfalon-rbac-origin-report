@@ -394,13 +394,44 @@
   <article class="track">
     <div class="track-head"><span class="track-num">TL;DR 03</span><h3>The <em>decisions</em></h3></div>
     <div class="track-body">
-      <table class="laws">
-        <tr><th>Call</th><th>Decision</th></tr>
-        <tr><td>Precedence</td><td><strong>Hard ceiling.</strong> The org policy is a cap, not a suggestion; member exceptions ride normal roles.</td></tr>
-        <tr><td>The permission itself</td><td>A normal action on the account resource (name TBD).</td></tr>
-        <tr><td>Service tokens</td><td>Capped by token limits &cap; org policy.</td></tr>
-        <tr><td>Kill switch</td><td><strong>Fails closed.</strong></td></tr>
-      </table>
+      <h4>The org policy is a hard limit</h4>
+      <p>If an org says agents can't do something, no member's agent can do it, whatever that member's role allows. Exceptions for specific people go through normal role assignment, not by overriding the org policy.</p>
+      <ul>
+        <li>Alternatives considered:
+          <ul>
+            <li>"Most specific rule wins", so a member's permission could beat the org policy. Lost: it needs new evaluation logic in the most security-sensitive code, and the access summary screen would have to copy that ordering exactly or it would show access the API denies.</li>
+            <li>"The org policy can only grant, never deny." Lost: it can't say "no one's agent gets X", which is the main thing admins asked for.</li>
+          </ul>
+        </li>
+      </ul>
+      <h4>Using the hosted MCP is an ordinary permission</h4>
+      <p>Connecting through the hosted MCP becomes one more action admins grant in the roles they already manage, on the account. The permission's name is still open.</p>
+      <ul>
+        <li>Alternatives considered:
+          <ul>
+            <li>A new MCP resource type with its own actions. Lost: heavy for what is one on/off permission today.</li>
+            <li>A separate allow/block list outside roles. Lost: a second permission system for admins to learn and keep in sync.</li>
+          </ul>
+        </li>
+      </ul>
+      <h4>Service tokens stay capped</h4>
+      <p>Tokens created for automation aren't tied to a live person, so they keep the limits set when they were created, and the org policy caps them further. It never widens them.</p>
+      <ul>
+        <li>Alternatives considered:
+          <ul>
+            <li>Blocking service tokens from the MCP entirely in the first version. Lost: it breaks legitimate automation, and is hard to walk back.</li>
+          </ul>
+        </li>
+      </ul>
+      <h4>The kill switch fails closed</h4>
+      <p>If LaunchDarkly can't confirm whether an org's switch is on, MCP requests are refused.</p>
+      <ul>
+        <li>Alternatives considered:
+          <ul>
+            <li>Failing open and alerting instead. Lost: an admin reaches for the switch during an incident, which is exactly when a failing-open switch would leak.</li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </article>
 
@@ -758,7 +789,7 @@
       <div class="win95">
         <div class="titlebar"><span>D3: precedence, specificity wins vs hard ceiling</span></div>
         <div class="pane">
-          <p class="q">Your latest call: "specificity wins in all cases &mdash; member override beats org policy." The doc said "any block wins." The code says a third thing (Track 02). Pick the combination law for the org agent-policy.</p>
+          <p class="q">Your latest decision: "specificity wins in all cases &mdash; member override beats org policy." The doc said "any block wins." The code says a third thing (Track 02). Pick the combination law for the org agent-policy.</p>
           <div class="opt">
             <div class="oname">A. Intersection (org policy is a hard ceiling, like tokens today)</div>
             <div class="pros"><b>PROS</b><ul>
@@ -875,7 +906,7 @@
               <li>Vega's hosted-MCP tokens (<span class="cite">factory_tokens oauth_token.go:64-73</span>) must be classified as vega, not mcp, at identification time</li>
             </ul></div>
           </div>
-          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints, and prioritizing the classification fix. <strong>Still open:</strong> awaiting the owner's call after Vega-team outreach.</div>
+          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints, and prioritizing the classification fix. <strong>Still open:</strong> awaiting the owner's decision after Vega-team outreach.</div>
         </div>
       </div>
 
