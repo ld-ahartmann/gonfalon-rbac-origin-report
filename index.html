@@ -392,7 +392,14 @@
   </article>
 
   <article class="track">
-    <div class="track-head"><span class="track-num">TL;DR 03</span><h3>The <em>decisions</em></h3></div>
+    <div class="track-head"><span class="track-num">TL;DR 03</span><h3>The <em>prerequisite</em></h3></div>
+    <div class="track-body">
+      <p>The org controls in this report depend on <a href="https://launchdarkly.atlassian.net/browse/AGNT-371">Basy's token-exchange design (AGNT-371)</a>: the hosted MCP exchanges each caller's token for a short-lived downstream token (RFC 8693), which is what tells LaunchDarkly a request came through the MCP. Until it ships, the controls apply to OAuth connections only; api-… tokens forwarded through the MCP can't be told apart from scripts. The ticket is untriaged and unassigned today, and every change in it ships dark behind default-off flags.</p>
+    </div>
+  </article>
+
+  <article class="track">
+    <div class="track-head"><span class="track-num">TL;DR 04</span><h3>The <em>decisions</em></h3></div>
     <div class="track-body">
       <h4>The org policy is a hard limit</h4>
       <p>If an org says agents can't do something, no member's agent can do it, whatever that member's role allows. Exceptions for specific people go through normal role assignment, not by overriding the org policy.</p>
@@ -436,25 +443,25 @@
   </article>
 
   <article class="track">
-    <div class="track-head"><span class="track-num">TL;DR 04</span><h3>Open <em>items</em></h3></div>
+    <div class="track-head"><span class="track-num">TL;DR 05</span><h3>Open <em>items</em></h3></div>
     <div class="track-body">
       <ul>
         <li>Vega classification: awaiting Vega-team outreach.</li>
         <li>The permission's name.</li>
         <li>What default applies to orgs that never choose one before enforcement.</li>
-        <li>The token-exchange prerequisite chain: still untriaged.</li>
+        <li>The token-exchange prerequisite (the card above): untriaged and unassigned.</li>
         <li>A route-coverage audit before the org policy ships: some flag/segment PATCH paths have known authorization gaps today.</li>
       </ul>
     </div>
   </article>
 
   <article class="track">
-    <div class="track-head"><span class="track-num">TL;DR 05</span><h3><em>Progress</em></h3></div>
+    <div class="track-head"><span class="track-num">TL;DR 06</span><h3><em>Progress</em></h3></div>
     <div class="track-body">
       <table class="laws">
         <tr><th>Item</th><th>Status</th><th>Notes</th></tr>
         <tr><td>Origin identification via OAuth</td><td>Partial</td><td>Works for new tokens only</td></tr>
-        <tr><td>Token exchange for api-… tokens</td><td>Not started</td><td>Prerequisite chain untriaged</td></tr>
+        <tr><td><a href="https://launchdarkly.atlassian.net/browse/AGNT-371">Token exchange for api-… tokens (Basy's design, AGNT-371)</a></td><td>Not started</td><td>Untriaged, unassigned</td></tr>
         <tr><td>P0 evaluator change</td><td>Not started</td><td>Decided shape</td></tr>
         <tr><td>Org agent policy</td><td>Not started</td><td>Precedence decided</td></tr>
         <tr><td>Kill switch</td><td>Not started</td><td>Pattern chosen, mirrors an existing org switch</td></tr>
@@ -466,7 +473,7 @@
   </article>
 
   <article class="track">
-    <div class="track-head"><span class="track-num">TL;DR 06</span><h3>Read <em>more</em></h3></div>
+    <div class="track-head"><span class="track-num">TL;DR 07</span><h3>Read <em>more</em></h3></div>
     <div class="track-body">
       <p><a href="https://launchdarkly.atlassian.net/wiki/spaces/~712020149565712c1a4e4b8113d329723d0fa3/pages/5517639783">The full plan doc (Atlassian)</a>. The FULL LP tab above has every citation, file path, and line number.</p>
     </div>
@@ -764,7 +771,7 @@
             </ul></div>
           </div>
           <div class="opt">
-            <div class="oname">B. Token exchange first (MCP swaps every caller token for an MCP-stamped one)</div>
+            <div class="oname">B. Token exchange first (MCP swaps every caller token for an MCP-stamped one; <a href="https://launchdarkly.atlassian.net/browse/AGNT-371">Basy's design, AGNT-371</a>)</div>
             <div class="pros"><b>PROS</b><ul>
               <li>One uniform origin signal for OAuth <em>and</em> api-… tokens; the policy applies to 100% of MCP traffic</li>
               <li>Kills the time-boxed exception on schedule instead of letting it fossilize</li>
@@ -942,7 +949,7 @@
         <li><strong>Comment #6 (specificity wins, role first) vs doc §2 (any block wins):</strong> resolved: <strong>the hard ceiling won</strong> (D3, Option A): the org agent-policy composes as an intersection, reusing the code's existing member&cap;token pattern, and member-override of the org policy is rejected. The doc's §2 ("any block wins") lands closest to the shipped answer; §2 and the walkthrough's evaluation order (comment #6's anchor) rewrite themselves accordingly.</li>
         <li><strong>Comment #1 (explain the schema):</strong> Track 01 is the explanation, and its wire example for the doc is: <span class="mono">{"effect":"allow","actions":["updateOn"],"resources":["proj/*:env/production:flag/*"]}</span>, which also answers <strong>comment #4</strong> ("what exactly would the admin say"): for "no production flag changes via agents," the org agent-policy statement is <span class="mono">{"effect":"deny","actions":["update*"],"resources":["proj/*:env/production:flag/*"]}</span> in Shape B, or the same with an origin condition in Shape A.</li>
         <li><strong>Comment #8 (P0/P1 split):</strong> the code supports the split cleanly. P0 (origin-aware role evaluation) is D1+D4; the P1 trio is D3 (policy), the default branch in the agent-policy checker (P1b), and the AccountLite clone (P1c). They're genuinely separable: P1c doesn't need P0's evaluator at all if it keys off caller-identity + token stamps.</li>
-        <li><strong>Comment #7 (prerequisite section):</strong> justified: D2 shows identification is <em>the</em> load-bearing prerequisite, and the token-exchange work is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
+        <li><strong>Comment #7 (prerequisite section):</strong> justified: D2 shows identification is <em>the</em> load-bearing prerequisite, and the token-exchange work (<a href="https://launchdarkly.atlassian.net/browse/AGNT-371">Basy's design, AGNT-371</a>) is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
         <li><strong>Comment #3 (link-check § refs):</strong> still a mechanical pass to do when the doc is edited; the "§5" anchor survived, but every cross-ref should become a real link in the same edit.</li>
       </ul>
     </div>
