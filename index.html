@@ -40,10 +40,9 @@
 
   /* ---------- HERO / ALBUM COVER ---------- */
   .hero {
-    min-height: 100vh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     position: relative; z-index: 1;
-    padding: 5vh 16px 0;
+    padding: 6vh 16px 0;
   }
   .album {
     position: relative;
@@ -109,7 +108,7 @@
   }
   .now-playing .np-credit a { color: var(--terra); text-decoration: none; border-bottom: 1px dotted var(--terra); }
   .now-playing .np-credit a:hover { color: var(--seafoam-deep); border-color: var(--seafoam-deep); }
-  .hero { padding-bottom: 60px; }
+  .hero { padding-bottom: 6vh; }
 
   /* ---------- LAYOUT ---------- */
   .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px 140px; position: relative; z-index: 1; }
@@ -192,7 +191,7 @@
     margin: 9px 0; line-height: 1.6; font-size: 15.5px;
   }
   .track-body ul > li::before {
-    content: "▸"; position: absolute; left: 2px;
+    content: "•"; position: absolute; left: 2px;
     color: var(--salmon);
   }
   .track-body ul ul { margin: 6px 0 6px 18px; }
@@ -340,7 +339,6 @@
     color: var(--ink);
   }
   .tabpane[hidden] { display: none; }
-  .tldr .side-intro { margin-top: 54px; }
   .track-body a { color: var(--terra); text-decoration: none; border-bottom: 1px dotted var(--terra); }
   .track-body a:hover { color: var(--seafoam-deep); border-color: var(--seafoam-deep); }
 </style>
@@ -355,14 +353,14 @@
   <div class="album">
     <div class="label-row mono"><span>LD-RBAC-2026</span><span>STEREO 33⅓</span></div>
     <div class="chrome">GONFALON<br>RBAC</div>
-    <div class="subtitle">How LaunchDarkly permissions actually work &mdash; and where an agent <span class="mono">origin</span> axis plugs in</div>
+    <div class="subtitle">How LaunchDarkly permissions actually work, and where an agent <span class="mono">origin</span> axis plugs in</div>
     <div class="meta mono"><span>W/ SOUNDTRACK</span><span>NOV 19 2026</span><span>SIDE A/B</span></div>
   </div>
   <div class="now-playing">
     <div class="np-label mono"><span>NOW PLAYING</span></div>
     <iframe src="https://bandcamp.com/EmbeddedPlayer/album=2523113692/size=small/bgcol=f6e7d7/linkcol=b14e32/transparent=true/" seamless loading="lazy" title="記憶ONLINE by Macroblank — Bandcamp player"><a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE by Macroblank</a></iframe>
-    <div class="np-credit">Music: <a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE</a> by <a href="https://macroblank.bandcamp.com/">Macroblank</a> &mdash; all rights reserved, via official Bandcamp embed</div>
-    <div class="np-credit">Free-use dept: "I am unable to give permission for using this work &mdash; everyone owns it just as much as I do" &mdash; <a href="https://macroblank.net/pages/contact">Macroblank, contact page</a> (a refusal to license, not a license)</div>
+    <div class="np-credit">Music: <a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE</a> by <a href="https://macroblank.bandcamp.com/">Macroblank</a>. All rights reserved, via official Bandcamp embed</div>
+    <div class="np-credit">Free-use dept: "I am unable to give permission for using this work &mdash; everyone owns it just as much as I do" (<a href="https://macroblank.net/pages/contact">Macroblank, contact page</a>; a refusal to license, not a license)</div>
   </div>
 </section>
 
@@ -374,21 +372,21 @@
 <div id="pane-tldr" class="tabpane">
 <div class="wrap tldr">
 
-  <p class="side-intro">The 90-second version, for a busy technical manager.</p>
-
   <article class="track">
     <div class="track-head"><span class="track-num">TL;DR 01</span><h3>What this <em>is</em></h3></div>
     <div class="track-body">
-      <p>Orgs want control over what AI agents can do through LaunchDarkly's hosted MCP. The proposal adds an <strong>origin</strong> axis to the existing permission check &mdash; <span class="mono">isAllowed(member, action)</span> becomes <span class="mono">isAllowed(member, action, origin)</span> &mdash; plus org-level controls on top. It reuses the RBAC system admins already know: same roles, same teams, same policy documents.</p>
+      <p>Orgs want control over what AI agents can do through LaunchDarkly's hosted MCP. The proposal adds an <strong>origin</strong> axis to the existing permission check (<span class="mono">isAllowed(member, action)</span> becomes <span class="mono">isAllowed(member, action, origin)</span>), plus org-level controls on top. It reuses the RBAC system admins already know: same roles, same teams, same policy documents.</p>
     </div>
   </article>
 
   <article class="track">
     <div class="track-head"><span class="track-num">TL;DR 02</span><h3>The <em>shape</em></h3></div>
     <div class="track-body">
+      <p><strong>P0</strong> is origin-aware permissions, delivered through the existing roles/teams policy system.</p>
+      <p><strong>P1</strong> is three features: an org-wide agent policy ("agents can never X"), an org-chosen default, and an org kill switch. Their exact scope comes out of two conversations that happen next:</p>
       <ul>
-        <li><strong>P0</strong> &mdash; origin-aware permissions, delivered through the existing roles/teams policy system.</li>
-        <li><strong>P1</strong> &mdash; three separate features: an org-wide agent policy ("agents can never X"), an org-chosen default, and an org kill switch.</li>
+        <li>Meet with the Vega team to understand what Vega actually wants from agent access control. Their integration is already live; the question is what governance they need, not whether they exist.</li>
+        <li>Meet with the agent platform team to agree what belongs in scope for the org controls and what stays out.</li>
       </ul>
     </div>
   </article>
@@ -398,7 +396,7 @@
     <div class="track-body">
       <table class="laws">
         <tr><th>Call</th><th>Decision</th></tr>
-        <tr><td>Precedence</td><td><strong>Hard ceiling</strong> &mdash; the org policy is a cap, not a suggestion; member exceptions ride normal roles.</td></tr>
+        <tr><td>Precedence</td><td><strong>Hard ceiling.</strong> The org policy is a cap, not a suggestion; member exceptions ride normal roles.</td></tr>
         <tr><td>The permission itself</td><td>A normal action on the account resource (name TBD).</td></tr>
         <tr><td>Service tokens</td><td>Capped by token limits &cap; org policy.</td></tr>
         <tr><td>Kill switch</td><td><strong>Fails closed.</strong></td></tr>
@@ -410,11 +408,11 @@
     <div class="track-head"><span class="track-num">TL;DR 04</span><h3>Open <em>items</em></h3></div>
     <div class="track-body">
       <ul>
-        <li>Vega classification &mdash; awaiting Vega-team outreach.</li>
+        <li>Vega classification: awaiting Vega-team outreach.</li>
         <li>The permission's name.</li>
         <li>What default applies to orgs that never choose one before enforcement.</li>
-        <li>The token-exchange prerequisite chain &mdash; still untriaged.</li>
-        <li>A route-coverage audit before the org policy ships &mdash; some flag/segment PATCH paths have known authorization gaps today.</li>
+        <li>The token-exchange prerequisite chain: still untriaged.</li>
+        <li>A route-coverage audit before the org policy ships: some flag/segment PATCH paths have known authorization gaps today.</li>
       </ul>
     </div>
   </article>
@@ -439,7 +437,7 @@
   <article class="track">
     <div class="track-head"><span class="track-num">TL;DR 06</span><h3>Read <em>more</em></h3></div>
     <div class="track-body">
-      <p><a href="https://launchdarkly.atlassian.net/wiki/spaces/~712020149565712c1a4e4b8113d329723d0fa3/pages/5517639783">The full plan doc (Atlassian)</a> &mdash; and the FULL LP tab above has every citation, file path, and line number.</p>
+      <p><a href="https://launchdarkly.atlassian.net/wiki/spaces/~712020149565712c1a4e4b8113d329723d0fa3/pages/5517639783">The full plan doc (Atlassian)</a>. The FULL LP tab above has every citation, file path, and line number.</p>
     </div>
   </article>
 
@@ -463,8 +461,8 @@
       <a href="#t2"><span class="tn">02</span>The three laws of combination</a>
       <a href="#t3"><span class="tn">03</span>How a request gets judged</a>
       <a href="#t4"><span class="tn">04</span>What already exists for agents</a>
-      <a href="#t5"><span class="tn">05</span>P0 &mdash; the origin axis</a>
-      <a href="#t6"><span class="tn">06</span>P1 &mdash; org policy, default, kill switch</a>
+      <a href="#t5"><span class="tn">05</span>P0: the origin axis</a>
+      <a href="#t6"><span class="tn">06</span>P1: org policy, default, kill switch</a>
       <a href="#t7"><span class="tn">07</span>The decisions (pros / cons)</a>
       <a href="#t8"><span class="tn">08</span>Reconciling your doc comments</a>
     </nav>
@@ -476,9 +474,9 @@
     <div class="track-body">
       <h4>The action registry</h4>
       <ul>
-        <li>Every permission is an <strong>ActionIdentifier</strong> string constant in one registry: <span class="cite">internal/roles/action.go</span> (~445 consts, ~410 unique strings &mdash; e.g. <span class="mono">createFlag</span>, <span class="mono">updateOn</span>, <span class="mono">updateRules</span>, <span class="mono">viewProject</span>, <span class="mono">createAccessToken</span>, <span class="mono">talkToVega</span>).</li>
-        <li>The same file doubles as the UI picker catalog via <span class="mono">actionAndDescriptionMap</span> <span class="cite">action.go:820-824</span> &mdash; with an explicit warning that adding an action may require a <strong>custom role migration</strong> so existing roles don't break. Anything that changes action semantics inherits that migration duty.</li>
-        <li>Policies don't name actions directly &mdash; they use glob <strong>ActionSpecifiers</strong> (<span class="mono">"*"</span>, <span class="mono">"create*"</span>) matched at evaluation time <span class="cite">action.go:15-23</span>.</li>
+        <li>Every permission is an <strong>ActionIdentifier</strong> string constant in one registry: <span class="cite">internal/roles/action.go</span> (~445 consts, ~410 unique strings; e.g. <span class="mono">createFlag</span>, <span class="mono">updateOn</span>, <span class="mono">updateRules</span>, <span class="mono">viewProject</span>, <span class="mono">createAccessToken</span>, <span class="mono">talkToVega</span>).</li>
+        <li>The same file doubles as the UI picker catalog via <span class="mono">actionAndDescriptionMap</span> <span class="cite">action.go:820-824</span>, with an explicit warning that adding an action may require a <strong>custom role migration</strong> so existing roles don't break. Anything that changes action semantics inherits that migration duty.</li>
+        <li>Policies don't name actions directly; they use glob <strong>ActionSpecifiers</strong> (<span class="mono">"*"</span>, <span class="mono">"create*"</span>) matched at evaluation time <span class="cite">action.go:15-23</span>.</li>
       </ul>
       <h4>The policy document (statement model)</h4>
       <ul>
@@ -486,14 +484,14 @@
         <li>Wire shape for APIs: <span class="mono">StatementPostData</span> <span class="cite">internal/roles/statement.go:16-22</span>; validation requires exactly one of actions/notActions and one of resources/notResources <span class="cite">statement.go:127-140</span>.</li>
         <li>Resources are colon-specifiers with globs and tags: <span class="mono">proj/*:env/production:flag/*;testing-tag</span>, rendered by the ResourceIdentifier zoo in <span class="cite">internal/roles/resource_identifier.go</span> (flag rendering at :1878-1886).</li>
       </ul>
-      <h4>Two kinds of roles &mdash; and this matters for us</h4>
+      <h4>Two kinds of roles, and this matters for us</h4>
       <ul>
-        <li><strong>Built-in roles are not policies.</strong> reader/writer/admin/owner/status/no_access are an enum in the foundation module, and their permissions are <em>hardcoded Go checkers</em>: e.g. <span class="mono">adminAccessChecker.CheckAccess</span> returns allow for everything except owner-only actions <span class="cite">internal/access_checker/types.go:187-192</span>; the reader baseline is <span class="mono">memberBaseline.allows</span> &mdash; view actions + access-token actions + follow/unfollow, unless <span class="mono">mustBeExplicitlyAllowed</span> <span class="cite">types.go:1125-1133</span>.</li>
+        <li><strong>Built-in roles are not policies.</strong> reader/writer/admin/owner/status/no_access are an enum in the foundation module, and their permissions are <em>hardcoded Go checkers</em>: e.g. <span class="mono">adminAccessChecker.CheckAccess</span> returns allow for everything except owner-only actions <span class="cite">internal/access_checker/types.go:187-192</span>; the reader baseline is <span class="mono">memberBaseline.allows</span>: view actions + access-token actions + follow/unfollow, unless <span class="mono">mustBeExplicitlyAllowed</span> <span class="cite">types.go:1125-1133</span>.</li>
         <li><strong>Custom roles are policies</strong> stored in CRDB <span class="mono">custom_roles</span> <span class="cite">internal/roles/internal/crdb/store.go:28-30</span>, with <span class="mono">BasePermissions</span> of reader or no_access as the fallback floor. Role presets just concatenate onto the statement list at read time <span class="cite">custom_role.go:150-154</span>.</li>
         <li>Attachment: members hold <span class="mono">Role</span> + <span class="mono">CustomRoleIds</span> <span class="cite">internal/accounts/account.go:1145-1181</span>; teams hold <span class="mono">CustomRoleKeys</span> + <span class="mono">MemberIDs</span> <span class="cite">internal/teams/domain/team.go:71-86</span> via <span class="mono">team_custom_roles</span> / <span class="mono">team_members</span> tables.</li>
       </ul>
       <h4>The query itself</h4>
-      <p>The entire authorization question is one struct &mdash; <strong>there is no origin, caller, or client field on it today</strong>:</p>
+      <p>The entire authorization question is one struct; <strong>there is no origin, caller, or client field on it today</strong>:</p>
       <pre class="codeblock"><span class="k">type</span> ResourceAccess <span class="k">struct</span> {
     Action   ActionIdentifier   <span class="c">// e.g. "updateOn"</span>
     Resource ResourceIdentifier <span class="c">// e.g. proj/p:env/production:flag/checkout</span>
@@ -517,22 +515,22 @@
         </tr>
         <tr>
           <td>Across a member's custom roles</td>
-          <td><strong>Any ALLOW wins.</strong> "CustomRoles are opt-in… denials must be unanimous" &mdash; a deny in role A is overridden by an allow in role B, in either order.</td>
+          <td><strong>Any ALLOW wins.</strong> "CustomRoles are opt-in… denials must be unanimous": a deny in role A is overridden by an allow in role B, in either order.</td>
           <td><span class="cite">types.go:526-552</span></td>
         </tr>
         <tr>
           <td>Member side vs token/OAuth side</td>
-          <td><strong>Intersection &mdash; any DENY wins.</strong> The token is a ceiling on the member, never an expansion.</td>
+          <td><strong>Intersection: any DENY wins.</strong> The token is a ceiling on the member, never an expansion.</td>
           <td><span class="cite">types.go:900-922</span>, <span class="cite">builders.go:230-282</span></td>
         </tr>
       </table>
       <h4>Corollaries that surprise people</h4>
       <ul>
         <li>Direct custom roles <strong>replace</strong> the built-in role checker entirely (not unioned with it); team roles and permission grants are then unioned on top <span class="cite">builders.go:142-182</span>.</li>
-        <li>Permission grants are special-cased <em>outside</em> the member∩token intersection &mdash; they can expand what a restricted token does <span class="cite">builders.go:230-282</span> (<span class="mono">BuildRequestAuthAccessChecker</span> unwraps the union to pull the grant checker out).</li>
+        <li>Permission grants are special-cased <em>outside</em> the member∩token intersection: they can expand what a restricted token does <span class="cite">builders.go:230-282</span> (<span class="mono">BuildRequestAuthAccessChecker</span> unwraps the union to pull the grant checker out).</li>
         <li>There is <strong>no ranked specificity</strong> between, say, an org-scoped and a project-scoped grant. Scoping is just whether the resource glob matches. "Specificity wins" as a universal rule would be <em class="hl">new evaluator semantics</em>, not a tweak.</li>
         <li>Because cross-role is any-allow, "org denies X, member role allows X" → <strong>allowed today for free</strong> if you model the org policy as just another unioned checker. But "org allows X, member denies X" → also allowed. Symmetric specificity needs an ordered evaluator (Track 07, D3).</li>
-        <li>Within one rank there is no tie-breaker at all: two team roles (or two of a member's direct roles) that disagree fall back to flat any-allow. A specificity design must define an explicit same-rank rule &mdash; the doc's parked "still to decide" team-vs-team question is exactly this (D3).</li>
+        <li>Within one rank there is no tie-breaker at all: two team roles (or two of a member's direct roles) that disagree fall back to flat any-allow. A specificity design must define an explicit same-rank rule; the doc's parked "still to decide" team-vs-team question is exactly this (D3).</li>
       </ul>
       <h4>The union and intersection loops, verbatim</h4>
       <pre class="codeblock"><span class="c">// unionAccessChecker — member side (types.go:961-982)</span>
@@ -562,30 +560,30 @@
       <h4>The pipeline</h4>
       <ul>
         <li>Entry: <span class="mono">ApiAuthMiddleware</span> wraps every api2 route <span class="cite">internal/api2/middleware/middleware.go:36-47</span>.</li>
-        <li>Credential resolution is a chain &mdash; internal JWT (<span class="mono">LD-Token</span>) → OAuth2 Bearer → user credential → <span class="mono">api-…</span> token → session cookie fallback <span class="cite">internal/trust/oauth2/web/middleware.go:115-131</span>, <span class="cite">internal/foundation/foundation.go:1776-1782</span>.</li>
-        <li>Once the caller is known, the per-request checker is built in exactly one place &mdash; this is <strong>the insertion point</strong> for any origin logic:
+        <li>Credential resolution is a chain: internal JWT (<span class="mono">LD-Token</span>) → OAuth2 Bearer → user credential → <span class="mono">api-…</span> token → session cookie fallback <span class="cite">internal/trust/oauth2/web/middleware.go:115-131</span>, <span class="cite">internal/foundation/foundation.go:1776-1782</span>.</li>
+        <li>Once the caller is known, the per-request checker is built in exactly one place, <strong>the insertion point</strong> for any origin logic:
         <pre class="codeblock">fctx.AccessChecker = access_checker.ForRequestAuth(
     member, authConfig.teamRoles, authConfig.memberPermissionGrants,
     accessToken, oauthToken, commonOpts...,
 ) <span class="c">// internal/foundation/foundation.go:1729-1736</span></pre></li>
         <li><span class="mono">ForRequestAuth</span> <span class="cite">internal/access_checker/builders.go:16-64</span>: member side = <span class="mono">computeBaseAccessChecker</span> (custom-roles-or-builtin ∪ grants ∪ team roles); then intersect with the token checker (personal token / frozen service-token limits via a synthetic member <span class="cite">builders.go:36-50</span>) or the OAuth scope ceiling (<span class="mono">makeOAuth2AccessChecker</span>).</li>
-        <li>Handlers call <span class="mono">foundation.CheckAccess(ctx, checker, ResourceAccess{Action, Resource})</span> inline &mdash; no route-metadata registry <span class="cite">internal/foundation/custom_role_authorization.go:189-198</span>. Mutating routes are wrapped by <span class="mono">EnsureAccessCheck</span>, which fails closed if no real check ran.</li>
+        <li>Handlers call <span class="mono">foundation.CheckAccess(ctx, checker, ResourceAccess{Action, Resource})</span> inline; there is no route-metadata registry <span class="cite">internal/foundation/custom_role_authorization.go:189-198</span>. Mutating routes are wrapped by <span class="mono">EnsureAccessCheck</span>, which fails closed if no real check ran.</li>
       </ul>
       <h4>What's already on the request that smells like "origin"</h4>
       <ul>
         <li><strong>authKind</strong> (session / api-token / OAuth / private / user-credential) is computed per request <span class="cite">foundation.go:1588-1598</span>.</li>
-        <li>OAuth tokens carry <strong>client_id</strong>, <strong>scopes</strong>, and RFC 8707 <strong>audience</strong> &mdash; all readable at checker-build time, all already surfaced by caller-identity <span class="cite">internal/api2/get_caller_identity.go:120-133</span>.</li>
+        <li>OAuth tokens carry <strong>client_id</strong>, <strong>scopes</strong>, and RFC 8707 <strong>audience</strong>; all readable at checker-build time, all already surfaced by caller-identity <span class="cite">internal/api2/get_caller_identity.go:120-133</span>.</li>
         <li>There's precedent for origin-flavored checkers as <em>wrappers</em>: <span class="mono">usageExceededAccessChecker</span> and <span class="mono">customRoleLapsedAccessChecker</span> wrap the member's real checker and veto whole classes of actions <span class="cite">builders.go:106-137</span>. An "agent policy" fits this exact pattern mechanically.</li>
       </ul>
       <h4>Caching that will matter for a kill switch</h4>
       <ul>
         <li><span class="mono">api-…</span> tokens are Redis-cached (~60s TTL) <span class="cite">internal/access_tokens/redis/finder.go</span>; the MCP's caller-identity results are cached 1 minute on the MCP side (per the plan doc). Any org switch has that much propagation lag unless explicitly busted.</li>
       </ul>
-      <h4>The net has holes &mdash; and reads have no net</h4>
+      <h4>The net has holes, and reads have no net</h4>
       <ul>
         <li><span class="mono">EnsureAccessCheck</span> only guards unsafe methods: GET, HEAD, and REPORT are excluded by <span class="mono">isUnsafeMethod</span>, so read routes carry no enforcement net at all <span class="cite">access_checker_required.go:151-159, 242-243</span>.</li>
-        <li>Its <span class="mono">knownOffenders</span> list includes <span class="mono">Api2PatchGlobalFlagByKey</span> and <span class="mono">Api2PatchSegmentByKey</span> &mdash; flag and segment PATCH handlers that are heavily authorized yet each have at least one reachable &lt;400 path with no access check, under internal security triage <span class="cite">access_checker_required.go:194-198</span>.</li>
-        <li>Consequence: an org promise like "agents can never change production flags" is only as strong as that list. Named work item: a <strong>scoped route-coverage audit</strong> before the org policy ships &mdash; the doc &sect;4 aside ("a few screens still needing a permission-check audit") is exactly this, and it belongs in the plan as a deliverable, not an aside.</li>
+        <li>Its <span class="mono">knownOffenders</span> list includes <span class="mono">Api2PatchGlobalFlagByKey</span> and <span class="mono">Api2PatchSegmentByKey</span>: flag and segment PATCH handlers that are heavily authorized yet each have at least one reachable &lt;400 path with no access check, under internal security triage <span class="cite">access_checker_required.go:194-198</span>.</li>
+        <li>Consequence: an org promise like "agents can never change production flags" is only as strong as that list. Named work item: a <strong>scoped route-coverage audit</strong> before the org policy ships. The doc &sect;4 aside ("a few screens still needing a permission-check audit") is exactly this, and it belongs in the plan as a deliverable, not an aside.</li>
       </ul>
     </div>
   </article>
@@ -596,16 +594,16 @@
     <div class="track-body">
       <h4>Present and working</h4>
       <ul>
-        <li><strong>caller-identity</strong>: <span class="mono">GET /api/v2/caller-identity</span> &mdash; the endpoint the hosted MCP calls to validate a token. Returns accountId, memberId, clientId, clientName, scopes, audience, expiresAt, tokenKind, serviceToken <span class="cite">internal/api2/get_caller_identity.go:33-51</span>, bound unauthenticated with scanner-aware rate limiting <span class="cite">internal/api2/api2.go:199</span>. <span class="mono">launchdarkly-mcp</span> is a recognized User-Agent in rate-limit tests <span class="cite">internal/foundation/rate_limiting/rate_limiting_test/caller_identity_scanner_limit_test.go:137-138</span>.</li>
+        <li><strong>caller-identity</strong>: <span class="mono">GET /api/v2/caller-identity</span>, the endpoint the hosted MCP calls to validate a token. Returns accountId, memberId, clientId, clientName, scopes, audience, expiresAt, tokenKind, serviceToken <span class="cite">internal/api2/get_caller_identity.go:33-51</span>, bound unauthenticated with scanner-aware rate limiting <span class="cite">internal/api2/api2.go:199</span>. <span class="mono">launchdarkly-mcp</span> is a recognized User-Agent in rate-limit tests <span class="cite">internal/foundation/rate_limiting/rate_limiting_test/caller_identity_scanner_limit_test.go:137-138</span>.</li>
         <li><strong>MCP OAuth plumbing</strong>: default scopes <span class="mono">reader writer observability offline_access</span> <span class="cite">internal/trust/oauth2/access/scopes.go:20-25</span>; per-environment MCP resource URIs for audience binding <span class="cite">internal/trust/oauth2/resource.go:18-21</span>; DCR-registered clients are forced to public+PKCE, which <em>is</em> the "this is an MCP client" marker today <span class="cite">internal/trust/oauth2/web/dcr_handler.go:223-232</span>, <span class="cite">internal/trust/oauth2/client_test.go:17-20</span> ("DCR public client with PKCE is MCP").</li>
-        <li><strong>Agent client registry</strong>: a closed set of first-party agent OAuth clients &mdash; <span class="mono">ld-factory-agent</span>, <span class="mono">ld-vega-agent</span> &mdash; with <span class="mono">IsAgentClientID</span> driving audit co-authorship ("member + agent did this") <span class="cite">internal/trust/oauth2/agents.go:18-44</span>. Vega's client is ensured at boot behind flag <span class="mono">enable-vega-oauth-client-for-hosted-mcp</span> <span class="cite">internal/factory_tokens/internal/token_service/oauth_token.go:64-73</span>.</li>
+        <li><strong>Agent client registry</strong>: a closed set of first-party agent OAuth clients (<span class="mono">ld-factory-agent</span>, <span class="mono">ld-vega-agent</span>) with <span class="mono">IsAgentClientID</span> driving audit co-authorship ("member + agent did this") <span class="cite">internal/trust/oauth2/agents.go:18-44</span>. Vega's client is ensured at boot behind flag <span class="mono">enable-vega-oauth-client-for-hosted-mcp</span> <span class="cite">internal/factory_tokens/internal/token_service/oauth_token.go:64-73</span>.</li>
         <li><strong>talkToVega</strong> is already a normal action on <span class="mono">proj/*:vega/*</span> <span class="cite">internal/roles/action.go:618</span>, implicitly granted to members via the baseline <span class="cite">types.go:1125-1133</span>.</li>
-        <li><strong>Org-switch precedent</strong>: <span class="mono">AccountLite.IsGeneralGenAiEnabled</span> &mdash; an account-level boolean, patched via internal API, guarded by its own action <span class="mono">updateIsGeneralGenAiEnabled</span> <span class="cite">internal/accounts/account_lite.go:52-55</span>, <span class="cite">internal/api_internal/account_endpoints/account.go:646-654</span>. An MCP kill switch is a clone of this pattern.</li>
+        <li><strong>Org-switch precedent</strong>: <span class="mono">AccountLite.IsGeneralGenAiEnabled</span>: an account-level boolean, patched via internal API, guarded by its own action <span class="mono">updateIsGeneralGenAiEnabled</span> <span class="cite">internal/accounts/account_lite.go:52-55</span>, <span class="cite">internal/api_internal/account_endpoints/account.go:646-654</span>. An MCP kill switch is a clone of this pattern.</li>
       </ul>
       <h4>Confirmed absent (zero hits, verified)</h4>
       <ul>
         <li>No <span class="mono">useMcp</span> action or permission anywhere.</li>
-        <li>No <span class="mono">ld-mcp-server</span> OAuth client &mdash; MCP clients today are anonymous DCR public clients, not a named first-party client.</li>
+        <li>No <span class="mono">ld-mcp-server</span> OAuth client. MCP clients today are anonymous DCR public clients, not a named first-party client.</li>
         <li>No RFC 8693 token exchange: advertised grant types are only <span class="mono">authorization_code</span>, <span class="mono">refresh_token</span>, <span class="mono">client_credentials</span> <span class="cite">internal/trust/oauth2/web/well_known_handler.go:62-66</span>. A token-exchange swap would be genuinely new.</li>
         <li>No multi-secret rotation: <span class="mono">Client</span> holds a single <span class="mono">SecretEncrypted</span> <span class="cite">internal/trust/oauth2/client.go:60-91</span>, and DCR rejects confidential auth methods outright <span class="cite">internal/trust/oauth2/web/dcr_handler_test.go:120-125</span>.</li>
         <li>No org-level "agent policy" model or store.</li>
@@ -622,49 +620,49 @@
 
   <!-- TRACK 05 -->
   <article class="track" id="t5">
-    <div class="track-head"><span class="track-num">TRACK 05</span><h3>P0 &mdash; the <em>origin</em> axis</h3></div>
+    <div class="track-head"><span class="track-num">TRACK 05</span><h3>P0: the <em>origin</em> axis</h3></div>
     <div class="track-body">
-      <p><strong>Goal (your words):</strong> permission members, teams, and roles through the existing policy systems &mdash; the exact same permissions, but "through the MCP," whatever <strong>harness</strong> the member connects with. <span class="mono">isAllowed(member, action)</span> → <span class="mono">isAllowed(member, action, origin)</span>.</p>
+      <p><strong>Goal (your words):</strong> permission members, teams, and roles through the existing policy systems: the exact same permissions, but "through the MCP," whatever <strong>harness</strong> the member connects with. <span class="mono">isAllowed(member, action)</span> → <span class="mono">isAllowed(member, action, origin)</span>.</p>
       <h4>Why the instinct is good</h4>
       <ul>
         <li>The codebase already <em>half-knows</em> origin: authKind, OAuth client_id, and audience are all present at checker-build time <span class="cite">foundation.go:1588-1598</span>, <span class="cite">get_caller_identity.go:120-133</span>. The axis formalizes what's currently scattered.</li>
         <li>It dissolves special cases instead of adding them: Vega becomes <span class="mono">origin=vega</span>, the hosted MCP becomes <span class="mono">origin=mcp</span>, Terraform/scripts stay <span class="mono">origin=direct</span>. The closed agent-client set in <span class="cite">agents.go:34-38</span> is a hand-maintained version of exactly this idea.</li>
-        <li>It generalizes past MCP &mdash; "contractors' tokens may never write production" and "CI may only read" are the same feature with different origin values.</li>
+        <li>It generalizes past MCP: "contractors' tokens may never write production" and "CI may only read" are the same feature with different origin values.</li>
       </ul>
       <h4>The fork in the road (details + pros/cons in Track 07, D1/D4)</h4>
       <ul>
-        <li><strong>Shape A &mdash; origin as a statement condition</strong> (AWS IAM Condition analogue): statements gain an optional origin matcher, so one policy language can say <span class="mono">allow updateOn on proj/*:env/production when origin=mcp</span>. Maximum expressive power, maximum blast radius: the Statement struct <span class="cite">custom_role.go:178-192</span>, every evaluator, RoleBuilder UI, access-summary, token inline roles, and the custom-role migration system all learn a new concept. And the blast radius crosses repos: gonfalon statements are converted into the shared <span class="mono">foundation/authorization</span> engine for access reps (<span class="mono">ConvertStatements</span>, <span class="cite">internal/access_checker/auth_builders.go:22-44</span>), so a statement-level origin condition must land in the foundation module and every rep consumer, not just here.</li>
-        <li><strong>Shape B &mdash; origin as a parallel policy layer</strong>: statements stay untouched; a separate "agent policy" document is evaluated only when the request's origin=mcp, composed as a wrapper/intersection at <span class="mono">ForRequestAuth</span> <span class="cite">builders.go:16-64</span> &mdash; the same mechanical pattern as <span class="mono">usageExceededAccessChecker</span>. Tiny blast radius, but two policy languages to reason about, and the "same permissions, through the MCP" dream is only approximated. A gonfalon-only wrapper also governs nothing evaluated elsewhere &mdash; any o11y-local evaluation (observability-side enforcement) stays out of its reach.</li>
+        <li><strong>Shape A: origin as a statement condition</strong> (AWS IAM Condition analogue): statements gain an optional origin matcher, so one policy language can say <span class="mono">allow updateOn on proj/*:env/production when origin=mcp</span>. Maximum expressive power, maximum blast radius: the Statement struct <span class="cite">custom_role.go:178-192</span>, every evaluator, RoleBuilder UI, access-summary, token inline roles, and the custom-role migration system all learn a new concept. And the blast radius crosses repos: gonfalon statements are converted into the shared <span class="mono">foundation/authorization</span> engine for access reps (<span class="mono">ConvertStatements</span>, <span class="cite">internal/access_checker/auth_builders.go:22-44</span>), so a statement-level origin condition must land in the foundation module and every rep consumer, not just here.</li>
+        <li><strong>Shape B: origin as a parallel policy layer</strong>: statements stay untouched; a separate "agent policy" document is evaluated only when the request's origin=mcp, composed as a wrapper/intersection at <span class="mono">ForRequestAuth</span> <span class="cite">builders.go:16-64</span>, the same mechanical pattern as <span class="mono">usageExceededAccessChecker</span>. Tiny blast radius, but two policy languages to reason about, and the "same permissions, through the MCP" dream is only approximated. A gonfalon-only wrapper also governs nothing evaluated elsewhere. Any o11y-local evaluation (observability-side enforcement) stays out of its reach.</li>
       </ul>
       <h4>The catch neither shape escapes</h4>
-      <p>Origin is only knowable if the token says so. OAuth tokens do (client_id / audience). <strong><span class="mono">api-…</span> access tokens forwarded through the MCP are indistinguishable from scripts</strong> &mdash; which is precisely the hole the proposed token exchange exists to close, and why it's a hard prerequisite for P0's promise rather than an implementation detail (see D2).</p>
+      <p>Origin is only knowable if the token says so. OAuth tokens do (client_id / audience). <strong><span class="mono">api-…</span> access tokens forwarded through the MCP are indistinguishable from scripts</strong>, which is precisely the hole the proposed token exchange exists to close, and why it's a hard prerequisite for P0's promise rather than an implementation detail (see D2).</p>
     </div>
   </article>
 
   <!-- TRACK 06 -->
   <article class="track" id="t6">
-    <div class="track-head"><span class="track-num">TRACK 06</span><h3>P1 &mdash; <em>org policy, default, kill switch</em></h3></div>
+    <div class="track-head"><span class="track-num">TRACK 06</span><h3>P1: <em>org policy, default, kill switch</em></h3></div>
     <div class="track-body">
-      <h4>P1a &mdash; org-wide agent policy ("no one gets X")</h4>
+      <h4>P1a: org-wide agent policy ("no one gets X")</h4>
       <ul>
-        <li>Mechanically this is a third checker composed at <span class="mono">BuildRequestAuthAccessChecker</span> <span class="cite">builders.go:230-282</span> &mdash; the only question is its combination law: hard ceiling (intersection, <span class="cite">types.go:900-922</span>) vs specificity-ranked (new code). That is D3, the biggest decision in the whole effort.</li>
-        <li>Storage can literally be the custom_roles machinery with an account-scoped marker &mdash; statements, validation, RoleBuilder UI, and the presets system all come along for free.</li>
-        <li>Access-summary honesty ships with it: the member/team access-summary must gain a <strong>per-origin evaluation</strong> (direct vs via-MCP) &mdash; a named work item delivered with the org policy, not discovered in QA.</li>
+        <li>Mechanically this is a third checker composed at <span class="mono">BuildRequestAuthAccessChecker</span> <span class="cite">builders.go:230-282</span>; the only question is its combination law: hard ceiling (intersection, <span class="cite">types.go:900-922</span>) vs specificity-ranked (new code). That is D3, the biggest decision in the whole effort.</li>
+        <li>Storage can literally be the custom_roles machinery with an account-scoped marker: statements, validation, RoleBuilder UI, and the presets system all come along for free.</li>
+        <li>Access-summary honesty ships with it: the member/team access-summary must gain a <strong>per-origin evaluation</strong> (direct vs via-MCP), a named work item delivered with the org policy, not discovered in QA.</li>
       </ul>
-      <h4>P1b &mdash; org-chosen default (default-on vs default-off)</h4>
+      <h4>P1b: org-chosen default (default-on vs default-off)</h4>
       <ul>
-        <li>Precedent exists inside the evaluator: the reader baseline is literally a "default allow-set" &mdash; view/token/follow actions unless <span class="mono">mustBeExplicitlyAllowed</span> <span class="cite">types.go:1125-1133</span>. An org default for origin=mcp is the same idea at a different layer: when neither the org policy nor any member/team grant mentions the action, fall to the org's chosen default.</li>
-        <li>"Permissions don't care" is half-true: the <em>policy language</em> doesn't care, but the <em>default branch</em> is where the evaluator currently hardcodes deny (e.g. <span class="mono">unionAccessChecker</span> starts from a deny statement <span class="cite">types.go:961-982</span>). Default-on means the agent-policy checker must be able to answer <span class="mono">pass</span>/allow-by-default instead &mdash; a small, well-contained change.</li>
+        <li>Precedent exists inside the evaluator: the reader baseline is literally a "default allow-set": view/token/follow actions unless <span class="mono">mustBeExplicitlyAllowed</span> <span class="cite">types.go:1125-1133</span>. An org default for origin=mcp is the same idea at a different layer: when neither the org policy nor any member/team grant mentions the action, fall to the org's chosen default.</li>
+        <li>"Permissions don't care" is half-true: the <em>policy language</em> doesn't care, but the <em>default branch</em> is where the evaluator currently hardcodes deny (e.g. <span class="mono">unionAccessChecker</span> starts from a deny statement <span class="cite">types.go:961-982</span>). Default-on means the agent-policy checker must be able to answer <span class="mono">pass</span>/allow-by-default instead, a small and well-contained change.</li>
       </ul>
-      <h4>P1c &mdash; the faucet (org kill switch for MCP traffic)</h4>
+      <h4>P1c: the faucet (org kill switch for MCP traffic)</h4>
       <ul>
         <li>Clone the <span class="mono">IsGeneralGenAiEnabled</span> pattern: boolean on <span class="mono">AccountLite</span>, internal PATCH endpoint, dedicated guarding action <span class="cite">account_lite.go:52-55</span>, <span class="cite">account_endpoints/account.go:646-654</span>.</li>
-        <li>Two enforcement points, both cheap: (1) at caller-identity &mdash; the MCP's validation call starts failing, so fully-blocked orgs are turned away at connect; (2) per-request, as the outermost wrapper on the checker when origin=mcp (same wrapper pattern as lapsed/usage-exceeded accounts).</li>
+        <li>Two enforcement points, both cheap: (1) at caller-identity: the MCP's validation call starts failing, so fully-blocked orgs are turned away at connect; (2) per-request, as the outermost wrapper on the checker when origin=mcp (same wrapper pattern as lapsed/usage-exceeded accounts).</li>
         <li>Decision: fail-open vs fail-closed when account state can't be loaded (D6), and cache-busting (60s token cache + 1m MCP-side caller-identity cache = up to ~1-2 min of "faucet drips after shutoff").</li>
       </ul>
-      <h4>P1d &mdash; rollout shape</h4>
+      <h4>P1d: rollout shape</h4>
       <ul>
-        <li>Precedent exists: the established "ships dark, flags default-off" pattern. The kill switch and org policy should launch the same way &mdash; present, inert, opt-in.</li>
+        <li>Precedent exists: the established "ships dark, flags default-off" pattern. The kill switch and org policy should launch the same way: present, inert, opt-in.</li>
         <li>Neither the doc nor this report previously answered: <strong>what happens to orgs that never pick a default before enforcement day?</strong> Least-surprise answer: default-on (= today's behavior) with loud admin UI; default-off is safer but silently breaks working harness setups. Pick before P1b ships, not after.</li>
       </ul>
     </div>
@@ -672,13 +670,13 @@
 
   <!-- TRACK 07 -->
   <article class="track" id="t7">
-    <div class="track-head"><span class="track-num">TRACK 07</span><h3>The <em>decisions</em> &mdash; pros &amp; cons</h3></div>
+    <div class="track-head"><span class="track-num">TRACK 07</span><h3>The <em>decisions</em>: pros &amp; cons</h3></div>
     <div class="track-body">
 
       <div class="win95">
-        <div class="titlebar"><span>D1 &mdash; where does the origin axis live?</span></div>
+        <div class="titlebar"><span>D1: where does the origin axis live?</span></div>
         <div class="pane">
-          <p class="q">isAllowed(member, action, origin) &mdash; but typed where?</p>
+          <p class="q">isAllowed(member, action, origin), but typed where?</p>
           <div class="opt">
             <div class="oname">A. Origin on ResourceAccess (the query struct)</div>
             <div class="pros"><b>PROS</b><ul>
@@ -687,7 +685,7 @@
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
               <li>ResourceAccess is serialized/compared/cached in many places (<span class="cite">resource_identifier.go:71-75</span>); a new field touches every constructor</li>
-              <li>It's a property of the <em>request</em>, not the resource &mdash; modeling smell that will confuse future readers</li>
+              <li>It's a property of the <em>request</em>, not the resource; a modeling smell that will confuse future readers</li>
             </ul></div>
           </div>
           <div class="opt">
@@ -697,7 +695,7 @@
               <li>Matches how isLapsed / isUsageExceededReadOnly already flow as Options <span class="cite">builders.go:106-137</span></li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Statements can't match on origin &mdash; caps you at Shape B (parallel policy layer)</li>
+              <li>Statements can't match on origin, which caps you at Shape B (parallel policy layer)</li>
               <li>Any checker that needs origin must be origin-aware explicitly</li>
             </ul></div>
           </div>
@@ -708,30 +706,30 @@
               <li>Works across services (observability re-checks) without each service re-deriving origin</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Requires the planned token exchange for api-… tokens &mdash; the parked, un-built dependency</li>
+              <li>Requires the planned token exchange for api-… tokens, the parked, un-built dependency</li>
               <li>OAuth-side only until confidential-client + rotation work lands (zero multi-secret support today, <span class="cite">client.go:60-91</span>)</li>
             </ul></div>
           </div>
-          <div class="verdict">Likely answer: B for the evaluation axis, with C as the transport that feeds it &mdash; but the o11y path inverts that priority: the doc &sect;4 promise ("Observability re-checks with Gonfalon per request") is a separate request carrying no MCP request context, so origin must be reconstructible from the token itself. For cross-service, C is mandatory, not optional. A only if Shape A (statement conditions) wins in D4.</div>
+          <div class="verdict">Likely answer: B for the evaluation axis, with C as the transport that feeds it, but the o11y path inverts that priority: the doc &sect;4 promise ("Observability re-checks with Gonfalon per request") is a separate request carrying no MCP request context, so origin must be reconstructible from the token itself. For cross-service, C is mandatory, not optional. A only if Shape A (statement conditions) wins in D4.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D2 &mdash; how do we know a request came via MCP?</span></div>
+        <div class="titlebar"><span>D2: how do we know a request came via MCP?</span></div>
         <div class="pane">
           <p class="q">Everything depends on this. Gonfalon can only apply an agent policy to traffic it can identify.</p>
           <div class="opt">
-            <div class="oname">A. OAuth-only identification (client_id / audience / DCR-PKCE marker) &mdash; ship P0 for OAuth, defer api-… tokens</div>
+            <div class="oname">A. OAuth-only identification (client_id / audience / DCR-PKCE marker): ship P0 for OAuth, defer api-… tokens</div>
             <div class="pros"><b>PROS</b><ul>
               <li>Works with zero new gonfalon crypto: audience already bound to MCP resources <span class="cite">resource.go:18-21</span>, client_id already on the token</li>
               <li>Most MCP users connect via OAuth today</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>api-… token users are a silent, uncontrolled lane through the MCP &mdash; the org switch lies to exactly the admins it's sold to</li>
+              <li>api-… token users are a silent, uncontrolled lane through the MCP; the org switch lies to exactly the admins it's sold to</li>
               <li>Two-tier enforcement is hard to explain in UI and docs</li>
-              <li>Every existing OAuth token is audience-less until the legacy-token revocation work lands (unstarted) &mdash; "audience already bound" holds only for newly minted tokens</li>
-              <li>Gonfalon REST still accepts MCP-audience tokens directly today (a known open gap) &mdash; "MCP audience &rArr; came via MCP" is false, so audience alone misclassifies direct API calls made with an MCP-minted token</li>
-              <li>Vega's hosted-MCP tokens fall back to the factory client ID per environment until <span class="mono">EnsureVegaOAuthClient</span> succeeds (<span class="cite">oauth_token.go:64-73</span>) &mdash; origin=vega silently classifies as factory</li>
+              <li>Every existing OAuth token is audience-less until the legacy-token revocation work lands (unstarted); "audience already bound" holds only for newly minted tokens</li>
+              <li>Gonfalon REST still accepts MCP-audience tokens directly today (a known open gap); "MCP audience &rArr; came via MCP" is false, so audience alone misclassifies direct API calls made with an MCP-minted token</li>
+              <li>Vega's hosted-MCP tokens fall back to the factory client ID per environment until <span class="mono">EnsureVegaOAuthClient</span> succeeds (<span class="cite">oauth_token.go:64-73</span>), so origin=vega silently classifies as factory</li>
             </ul></div>
           </div>
           <div class="opt">
@@ -742,33 +740,33 @@
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
               <li>Real prerequisites: first confidential server client (<span class="mono">ld-mcp-server</span>), dual-secret rotation (doesn't exist, <span class="cite">client.go:60-64</span>), exchange handler (doesn't exist, <span class="cite">well_known_handler.go:62-66</span>)</li>
-              <li>Swapped token must reference the original token's limits or the swap silently widens restricted tokens &mdash; a new token-lineage concept</li>
+              <li>Swapped token must reference the original token's limits or the swap silently widens restricted tokens, a new token-lineage concept</li>
             </ul></div>
           </div>
           <div class="opt">
             <div class="oname">C. Trust an MCP-signed header / caller-identity assertion without exchange</div>
             <div class="pros"><b>PROS</b><ul><li>Cheapest path to covering api-… tokens</li></ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Any client can set the same header to <em>evade</em> the policy (or forget it to evade attribution) &mdash; origin becomes spoofable by design</li>
+              <li>Any client can set the same header to <em>evade</em> the policy (or forget it to evade attribution); origin becomes spoofable by design</li>
               <li>Security review will (correctly) eat this alive</li>
             </ul></div>
           </div>
-          <div class="verdict">B is the honest version of the feature; A buys less than it first claims &mdash; the crypto is free, but the identification stays porous until legacy-token revocation and the direct-token gap are closed, so label it loudly "OAuth connections only" if it ships. The prerequisite set is bigger than the token exchange alone: the full prerequisite chain is still untriaged, and the o11y piece (refusing MCP-audience tokens) is the cross-service half of this same problem. C should be rejected now so it stops reappearing.</div>
+          <div class="verdict">B is the honest version of the feature; A buys less than it first claims: the crypto is free, but the identification stays porous until legacy-token revocation and the direct-token gap are closed, so label it loudly "OAuth connections only" if it ships. The prerequisite set is bigger than the token exchange alone: the full prerequisite chain is still untriaged, and the o11y piece (refusing MCP-audience tokens) is the cross-service half of this same problem. C should be rejected now so it stops reappearing.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D3 &mdash; precedence: specificity wins vs hard ceiling</span></div>
+        <div class="titlebar"><span>D3: precedence, specificity wins vs hard ceiling</span></div>
         <div class="pane">
           <p class="q">Your latest call: "specificity wins in all cases &mdash; member override beats org policy." The doc said "any block wins." The code says a third thing (Track 02). Pick the combination law for the org agent-policy.</p>
           <div class="opt">
             <div class="oname">A. Intersection (org policy is a hard ceiling, like tokens today)</div>
             <div class="pros"><b>PROS</b><ul>
               <li>Zero new semantics: reuse <span class="mono">intersectionAccessChecker</span> <span class="cite">types.go:900-922</span>; admins can reason "org policy ∩ role ∩ token"</li>
-              <li>Safest story for security-minded buyers &mdash; the org can guarantee "agents can never X"</li>
+              <li>Safest story for security-minded buyers: the org can guarantee "agents can never X"</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Breaks your "unless a member has an overriding permission" promise &mdash; no member exemption is possible</li>
+              <li>Breaks your "unless a member has an overriding permission" promise; no member exemption is possible</li>
               <li>"Block one contractor" (doc §1) needs a different mechanism (it would ride RBAC, not the policy)</li>
             </ul></div>
           </div>
@@ -779,7 +777,7 @@
               <li>Org policy, team carve-outs, and member exceptions are one coherent system</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Brand-new evaluation semantics in the most security-critical code in the repo &mdash; today cross-source resolution is flat any-allow (<span class="cite">types.go:961-982</span>, <span class="cite">526-552</span>)</li>
+              <li>Brand-new evaluation semantics in the most security-critical code in the repo. Today cross-source resolution is flat any-allow (<span class="cite">types.go:961-982</span>, <span class="cite">526-552</span>)</li>
               <li>Access-summary UI must replicate the ordering or it promises access the API denies (doc §2's own warning)</li>
               <li>"Specificity" needs a definition beyond source: member-role vs member's-other-role is still unordered</li>
             </ul></div>
@@ -787,19 +785,19 @@
           <div class="opt">
             <div class="oname">C. Allow-only org policy, unioned (org grants a floor; member/team grants add; nothing at org level can deny)</div>
             <div class="pros"><b>PROS</b><ul>
-              <li>Reuses union semantics exactly as-is &mdash; any-allow-wins gives "member override" for free</li>
+              <li>Reuses union semantics exactly as-is: any-allow-wins gives "member override" for free</li>
               <li>Simple to explain: "the org can open lanes; people open more"</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Cannot express "no one gets X" &mdash; the literal headline feature of P1a. Probably disqualifying on its own.</li>
+              <li>Cannot express "no one gets X", the literal headline feature of P1a. Probably disqualifying on its own.</li>
             </ul></div>
           </div>
-          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; the org agent-policy composes as an <strong>intersection (hard ceiling)</strong>, reusing <span class="mono">intersectionAccessChecker</span> <span class="cite">types.go:900-922</span>. Member-override is rejected; "block one contractor" rides plain RBAC (role assignment), not the policy. Token limits remain a hard ceiling outside the ordering (<span class="cite">types.go:900-922</span>) &mdash; under intersection there is no ordering for them to sit outside of, and the member&cap;token invariant is untouched. The parked team-vs-team tie-breaker is moot: with a hard ceiling, no same-rank specificity rule is needed.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A: the org agent-policy composes as an <strong>intersection (hard ceiling)</strong>, reusing <span class="mono">intersectionAccessChecker</span> <span class="cite">types.go:900-922</span>. Member-override is rejected; "block one contractor" rides plain RBAC (role assignment), not the policy. Token limits remain a hard ceiling outside the ordering (<span class="cite">types.go:900-922</span>); under intersection there is no ordering for them to sit outside of, and the member&cap;token invariant is untouched. The parked team-vs-team tie-breaker is moot: with a hard ceiling, no same-rank specificity rule is needed.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D4 &mdash; the P0 permission itself: useMcp, and on what resource?</span></div>
+        <div class="titlebar"><span>D4: the P0 permission itself. useMcp, and on what resource?</span></div>
         <div class="pane">
           <p class="q">"May use the hosted MCP at all" needs a name, a resource kind, and a place in the baseline.</p>
           <div class="opt">
@@ -809,7 +807,7 @@
               <li>Checked at caller-identity with the standard checker; per-member exempt/block is just role assignment (doc §2's "built on RBAC, not a parallel override")</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>New action ⇒ the custom-role-migration question from <span class="cite">action.go:820-824</span> (existing roles with explicit statement lists won't have it &mdash; default-deny vs default-allow must be chosen, which is P1b leaking into P0)</li>
+              <li>New action ⇒ the custom-role-migration question from <span class="cite">action.go:820-824</span> (existing roles with explicit statement lists won't have it; default-deny vs default-allow must be chosen, which is P1b leaking into P0)</li>
               <li>Reader baseline interplay: must be added to <span class="mono">mustBeExplicitlyAllowed</span> handling or every reader gets/denies it silently <span class="cite">types.go:1125-1133</span></li>
             </ul></div>
           </div>
@@ -817,87 +815,87 @@
             <div class="oname">B. A new resource kind (mcp) with its own tiny action set</div>
             <div class="pros"><b>PROS</b><ul><li>Room to grow: future MCP-specific actions (per-tool grants) have a home</li></ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>A whole resource-kind zoo entry (<span class="cite">resource_identifier.go</span>) for one boolean &mdash; heavy</li>
+              <li>A whole resource-kind zoo entry (<span class="cite">resource_identifier.go</span>) for one boolean: heavy</li>
               <li>Still needs the baseline + migration answers anyway</li>
             </ul></div>
           </div>
-          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; a normal action on the account resource. Naming still open: <span class="mono">useHostedMcp</span>, <span class="mono">connectViaMcp</span>, and <span class="mono">useAgentAccess</span> remain candidates. Name after the thing the member does, not the server.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A: a normal action on the account resource. Naming still open: <span class="mono">useHostedMcp</span>, <span class="mono">connectViaMcp</span>, and <span class="mono">useAgentAccess</span> remain candidates. Name after the thing the member does, not the server.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D5 &mdash; service tokens &amp; the origin axis</span></div>
+        <div class="titlebar"><span>D5: service tokens &amp; the origin axis</span></div>
         <div class="pane">
           <p class="q">Service tokens have no member and frozen role limits from creation time (<span class="cite">builders.go:36-50</span>, <span class="cite">internal/access_tokens/access_tokens.go:115-121</span>). What does origin=mcp mean for them?</p>
           <div class="opt">
             <div class="oname">A. Service tokens follow token policy ∩ org agent policy (no member layer)</div>
             <div class="pros"><b>PROS</b><ul><li>Consistent with their existing semantics (creator-snapshot limits, no live member)</li><li>Automation via MCP stays possible but org-capped</li></ul></div>
-            <div class="cons"><b>CONS</b><ul><li>"Member override" (D3-B) has no meaning for them &mdash; two rule-books again</li></ul></div>
+            <div class="cons"><b>CONS</b><ul><li>"Member override" (D3-B) has no meaning for them; two rule-books again</li></ul></div>
           </div>
           <div class="opt">
             <div class="oname">B. Forbid service tokens via MCP entirely in v1</div>
             <div class="pros"><b>PROS</b><ul><li>One rule-book; smallest v1</li></ul></div>
             <div class="cons"><b>CONS</b><ul><li>Breaks legitimate "agent runs my nightly automation" use cases; hard to walk back gracefully</li></ul></div>
           </div>
-          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; service tokens follow token policy &cap; org agent policy (no member layer). The doc's §5 already half-says this ("service tokens follow the limits set when the token was created") &mdash; the org policy is an additional ceiling, never an expansion.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A: service tokens follow token policy &cap; org agent policy (no member layer). The doc's §5 already half-says this ("service tokens follow the limits set when the token was created"); the org policy is an additional ceiling, never an expansion.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D6 &mdash; the faucet: failure mode &amp; propagation</span></div>
+        <div class="titlebar"><span>D6: the faucet, failure mode &amp; propagation</span></div>
         <div class="pane">
           <p class="q">When the org flips the kill switch (or when we can't tell whether it's on), what happens?</p>
           <div class="opt">
             <div class="oname">A. Fail-closed (can't load account state ⇒ deny MCP)</div>
             <div class="pros"><b>PROS</b><ul><li>The switch means what admins think it means; incident posture</li></ul></div>
-            <div class="cons"><b>CONS</b><ul><li>A gonfalon/account-store wobble takes down all customer MCP traffic &mdash; new coupling in the hot path of every MCP call</li></ul></div>
+            <div class="cons"><b>CONS</b><ul><li>A gonfalon/account-store wobble takes down all customer MCP traffic; new coupling in the hot path of every MCP call</li></ul></div>
           </div>
           <div class="opt">
             <div class="oname">B. Fail-open with loud telemetry</div>
             <div class="pros"><b>PROS</b><ul><li>No new availability coupling</li></ul></div>
             <div class="cons"><b>CONS</b><ul><li>During an incident is exactly when an admin reaches for the faucet; a faucet that drips when the plumbing is broken is a bad faucet</li></ul></div>
           </div>
-          <div class="verdict decided"><strong>DECIDED:</strong> Option A &mdash; fail-closed (can't load account state ⇒ deny MCP). Read account state from the same cached path the request already uses (no new lookup), and document the ~1-2 min propagation from token cache (<span class="cite">access_tokens/redis/finder.go</span>) + MCP-side caller-identity cache. Consider an explicit cache-bust on flip.</div>
+          <div class="verdict decided"><strong>DECIDED:</strong> Option A: fail-closed (can't load account state ⇒ deny MCP). Read account state from the same cached path the request already uses (no new lookup), and document the ~1-2 min propagation from token cache (<span class="cite">access_tokens/redis/finder.go</span>) + MCP-side caller-identity cache. Consider an explicit cache-bust on flip.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D7 &mdash; Vega: exempt, controlled, or dissolved?</span></div>
+        <div class="titlebar"><span>D7: Vega, exempt, controlled, or dissolved?</span></div>
         <div class="pane">
           <p class="q">Doc §7 framed exempt-vs-controlled as a binary. The origin axis offers a third answer.</p>
           <div class="opt">
             <div class="oname">C. Vega is just another origin (origin=vega)</div>
             <div class="pros"><b>PROS</b><ul>
               <li>The client is already identifiable (<span class="mono">ld-vega-agent</span>, <span class="cite">agents.go:24</span>) and its permission already exists (<span class="mono">talkToVega</span>, <span class="cite">action.go:618</span>)</li>
-              <li>Org kill switch can cover "hosted MCP connections" while Vega keeps its own independently-controllable lane &mdash; no accidental breakage, no blanket exemption</li>
+              <li>Org kill switch can cover "hosted MCP connections" while Vega keeps its own independently-controllable lane; no accidental breakage, no blanket exemption</li>
               <li>The "walked-away Vega proposal" you mentioned likely died precisely because it was special-case machinery; the axis makes it ordinary</li>
             </ul></div>
             <div class="cons"><b>CONS</b><ul>
-              <li>Admins must learn that "MCP off" ≠ "all agents off" &mdash; needs honest UI copy</li>
+              <li>Admins must learn that "MCP off" ≠ "all agents off", which needs honest UI copy</li>
               <li>Vega's hosted-MCP tokens (<span class="cite">factory_tokens oauth_token.go:64-73</span>) must be classified as vega, not mcp, at identification time</li>
             </ul></div>
           </div>
-          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints &mdash; and prioritizing the classification fix. <strong>Still open:</strong> awaiting the owner's call after Vega-team outreach.</div>
+          <div class="verdict">Recommend C in the doc. The question is live, not hypothetical: Vega already runs on the hosted MCP in production under <span class="mono">ld-vega-agent</span> (confirmed by the Vega team, Nov 13), and the factory-client fallback in D2 already misclassifies it per environment. Your to-do narrows to confirming the abandoned proposal implies no other constraints, and prioritizing the classification fix. <strong>Still open:</strong> awaiting the owner's call after Vega-team outreach.</div>
         </div>
       </div>
 
       <div class="win95">
-        <div class="titlebar"><span>D9 &mdash; the 403 wart &amp; pre-flight</span></div>
+        <div class="titlebar"><span>D9: the 403 wart &amp; pre-flight</span></div>
         <div class="pane">
           <p class="q">Doc &sect;6 chose fail-with-403. What does that feel like for a multi-step agent plan?</p>
           <div class="opt">
             <div class="oname">The wart, and the mitigation that already exists</div>
             <div class="cons"><b>PROBLEM</b><ul>
-              <li>A harness running a multi-step plan ("edit the flag, then toggle it") can 403 on step two <em>after</em> step one succeeded &mdash; partial application, no dry-run story</li>
+              <li>A harness running a multi-step plan ("edit the flag, then toggle it") can 403 on step two <em>after</em> step one succeeded: partial application, no dry-run story</li>
             </ul></div>
             <div class="pros"><b>MITIGATION (ALREADY EXISTS)</b><ul>
-              <li>The bulk access-check endpoint &mdash; <span class="mono">POST /authorization/access-check/{service}/bulk</span> <span class="cite">internal/authorization/internal/adapters/web/gen_api_handler.go:262-264</span> &mdash; lets the MCP pre-flight every (action, resource) pair in a plan in one call and refuse up front</li>
+              <li>The bulk access-check endpoint, <span class="mono">POST /authorization/access-check/{service}/bulk</span> <span class="cite">internal/authorization/internal/adapters/web/gen_api_handler.go:262-264</span>, lets the MCP pre-flight every (action, resource) pair in a plan in one call and refuse up front</li>
             </ul></div>
             <div class="cons"><b>LIMIT</b><ul>
               <li>Pre-flight is advisory: a policy flip mid-plan still 403s at execution (TOCTOU). The 403 stays as backstop; pre-flight just makes it rare</li>
             </ul></div>
           </div>
-          <div class="verdict decided"><strong>PUNTED:</strong> deferred &mdash; no pre-flight wiring now; write-permission holders could already hit the same partial-application wart with an API key today. But the org-policy design must avoid choices that would preclude adding a pre-flight hook later.</div>
+          <div class="verdict decided"><strong>PUNTED:</strong> deferred; no pre-flight wiring now; write-permission holders could already hit the same partial-application wart with an API key today. But the org-policy design must avoid choices that would preclude adding a pre-flight hook later.</div>
         </div>
       </div>
 
@@ -909,11 +907,11 @@
     <div class="track-head"><span class="track-num">TRACK 08</span><h3>Reconciling your <em>doc comments</em> with the code</h3></div>
     <div class="track-body">
       <ul>
-        <li><strong>Comment #5 ("AI tool" &rarr; harness):</strong> adopted &mdash; a member connects to the hosted MCP through their chosen <strong>harness</strong>, and P0's roles are "applicable by harness." It's the doc's term of art, and this report now uses it.</li>
-        <li><strong>Comment #6 (specificity wins, role first) vs doc §2 (any block wins):</strong> resolved &mdash; <strong>the hard ceiling won</strong> (D3, Option A): the org agent-policy composes as an intersection, reusing the code's existing member&cap;token pattern, and member-override of the org policy is rejected. The doc's §2 ("any block wins") lands closest to the shipped answer; §2 and the walkthrough's evaluation order (comment #6's anchor) rewrite themselves accordingly.</li>
-        <li><strong>Comment #1 (explain the schema):</strong> Track 01 is the explanation, and its wire example for the doc is: <span class="mono">{"effect":"allow","actions":["updateOn"],"resources":["proj/*:env/production:flag/*"]}</span> &mdash; which also answers <strong>comment #4</strong> ("what exactly would the admin say"): for "no production flag changes via agents," the org agent-policy statement is <span class="mono">{"effect":"deny","actions":["update*"],"resources":["proj/*:env/production:flag/*"]}</span> in Shape B, or the same with an origin condition in Shape A.</li>
-        <li><strong>Comment #8 (P0/P1 split):</strong> the code supports the split cleanly &mdash; P0 (origin-aware role evaluation) is D1+D4; the P1 trio is D3 (policy), the default branch in the agent-policy checker (P1b), and the AccountLite clone (P1c). They're genuinely separable: P1c doesn't need P0's evaluator at all if it keys off caller-identity + token stamps.</li>
-        <li><strong>Comment #7 (prerequisite section):</strong> justified &mdash; D2 shows identification is <em>the</em> load-bearing prerequisite, and the token-exchange work is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
+        <li><strong>Comment #5 ("AI tool" &rarr; harness):</strong> adopted: a member connects to the hosted MCP through their chosen <strong>harness</strong>, and P0's roles are "applicable by harness." It's the doc's term of art, and this report now uses it.</li>
+        <li><strong>Comment #6 (specificity wins, role first) vs doc §2 (any block wins):</strong> resolved: <strong>the hard ceiling won</strong> (D3, Option A): the org agent-policy composes as an intersection, reusing the code's existing member&cap;token pattern, and member-override of the org policy is rejected. The doc's §2 ("any block wins") lands closest to the shipped answer; §2 and the walkthrough's evaluation order (comment #6's anchor) rewrite themselves accordingly.</li>
+        <li><strong>Comment #1 (explain the schema):</strong> Track 01 is the explanation, and its wire example for the doc is: <span class="mono">{"effect":"allow","actions":["updateOn"],"resources":["proj/*:env/production:flag/*"]}</span>, which also answers <strong>comment #4</strong> ("what exactly would the admin say"): for "no production flag changes via agents," the org agent-policy statement is <span class="mono">{"effect":"deny","actions":["update*"],"resources":["proj/*:env/production:flag/*"]}</span> in Shape B, or the same with an origin condition in Shape A.</li>
+        <li><strong>Comment #8 (P0/P1 split):</strong> the code supports the split cleanly. P0 (origin-aware role evaluation) is D1+D4; the P1 trio is D3 (policy), the default branch in the agent-policy checker (P1b), and the AccountLite clone (P1c). They're genuinely separable: P1c doesn't need P0's evaluator at all if it keys off caller-identity + token stamps.</li>
+        <li><strong>Comment #7 (prerequisite section):</strong> justified: D2 shows identification is <em>the</em> load-bearing prerequisite, and the token-exchange work is parked behind three concrete gaps (confidential client, secret rotation, exchange handler), each verified absent in code today.</li>
         <li><strong>Comment #3 (link-check § refs):</strong> still a mechanical pass to do when the doc is edited; the "§5" anchor survived, but every cross-ref should become a real link in the same edit.</li>
       </ul>
     </div>
@@ -923,27 +921,27 @@
   <section class="liner">
     <h4>LINER NOTES</h4>
     <ul>
-      <li>Action registry &amp; UI catalog &mdash; <span class="cite">internal/roles/action.go</span> (:15-23 specifiers, :820-824 catalog + migration warning, :618 talkToVega)</li>
-      <li>Statement &amp; role model &mdash; <span class="cite">internal/roles/custom_role.go:16-22, 133-192</span>, <span class="cite">internal/roles/statement.go:16-22, 127-140</span></li>
-      <li>Resource specifiers &amp; ResourceAccess &mdash; <span class="cite">internal/roles/resource_specifier.go</span>, <span class="cite">internal/roles/resource_identifier.go:71-75, 1878-1886</span></li>
-      <li>Evaluator &mdash; <span class="cite">internal/access_checker/types.go:187-192 (admin), 526-552 (roles any-allow), 900-922 (intersection), 961-982 (union), 1125-1133 (baseline)</span>, <span class="cite">internal/access_checker/statement.go:15-44 (deny-in-role)</span></li>
-      <li>Checker construction &mdash; <span class="cite">internal/access_checker/builders.go:16-64 (ForRequestAuth), 66-95 (ForToken), 106-137 (wrappers), 142-182 (computeBase), 230-282 (BuildRequestAuth)</span>, <span class="cite">internal/foundation/foundation.go:1588-1598, 1729-1736, 1776-1782</span></li>
-      <li>Auth chain &mdash; <span class="cite">internal/api2/middleware/middleware.go:36-47</span>, <span class="cite">internal/trust/oauth2/web/middleware.go:115-131</span>, <span class="cite">internal/foundation/custom_role_authorization.go:189-198</span></li>
-      <li>Caller identity &amp; MCP plumbing &mdash; <span class="cite">internal/api2/get_caller_identity.go:33-51, 120-133</span>, <span class="cite">internal/api2/api2.go:199</span>, <span class="cite">internal/trust/oauth2/access/scopes.go:20-25</span>, <span class="cite">internal/trust/oauth2/resource.go:18-21</span>, <span class="cite">internal/trust/oauth2/web/dcr_handler.go:223-232</span>, <span class="cite">internal/trust/oauth2/web/well_known_handler.go:62-66</span>, <span class="cite">internal/trust/oauth2/client.go:60-91</span></li>
-      <li>Agents &amp; Vega &mdash; <span class="cite">internal/trust/oauth2/agents.go:18-44</span>, <span class="cite">internal/factory_tokens/internal/token_service/oauth_token.go:64-73</span>, <span class="cite">internal/factory_tokens/internal/token_service/main.go:59-62</span></li>
-      <li>Members / teams / tokens &mdash; <span class="cite">internal/accounts/account.go:1145-1181</span>, <span class="cite">internal/teams/domain/team.go:71-86</span>, <span class="cite">internal/access_tokens/access_tokens.go:115-121</span>, <span class="cite">internal/access_tokens/redis/finder.go</span></li>
-      <li>Org-switch precedent &mdash; <span class="cite">internal/accounts/account_lite.go:52-55</span>, <span class="cite">internal/api_internal/account_endpoints/account.go:646-654</span>, <span class="cite">internal/roles/action.go:118</span></li>
-      <li>Policy surfaces &mdash; <span class="cite">internal/roles/api/role_post.go:31-38</span>, <span class="cite">internal/api_shared/access_tokens/access_tokens_create.go:42-54</span>, <span class="cite">internal/access_summary/internal/service/service.go:150-205</span>, <span class="cite">static/ld/components/RoleBuilder/</span>, <span class="cite">static/ld/utils/policyUtils.tsx:222-258</span></li>
-      <li>Enforcement net &amp; its holes &mdash; <span class="cite">internal/foundation/middleware/access_checker_required/access_checker_required.go:31-44, 151-159, 190-198, 230-243</span></li>
-      <li>Foundation engine bridge &mdash; <span class="cite">internal/access_checker/auth_builders.go:22-44</span></li>
-      <li>Bulk pre-flight endpoint &mdash; <span class="cite">internal/authorization/internal/adapters/web/gen_api_handler.go:262-264</span></li>
+      <li>Action registry &amp; UI catalog: <span class="cite">internal/roles/action.go</span> (:15-23 specifiers, :820-824 catalog + migration warning, :618 talkToVega)</li>
+      <li>Statement &amp; role model: <span class="cite">internal/roles/custom_role.go:16-22, 133-192</span>, <span class="cite">internal/roles/statement.go:16-22, 127-140</span></li>
+      <li>Resource specifiers &amp; ResourceAccess: <span class="cite">internal/roles/resource_specifier.go</span>, <span class="cite">internal/roles/resource_identifier.go:71-75, 1878-1886</span></li>
+      <li>Evaluator: <span class="cite">internal/access_checker/types.go:187-192 (admin), 526-552 (roles any-allow), 900-922 (intersection), 961-982 (union), 1125-1133 (baseline)</span>, <span class="cite">internal/access_checker/statement.go:15-44 (deny-in-role)</span></li>
+      <li>Checker construction: <span class="cite">internal/access_checker/builders.go:16-64 (ForRequestAuth), 66-95 (ForToken), 106-137 (wrappers), 142-182 (computeBase), 230-282 (BuildRequestAuth)</span>, <span class="cite">internal/foundation/foundation.go:1588-1598, 1729-1736, 1776-1782</span></li>
+      <li>Auth chain: <span class="cite">internal/api2/middleware/middleware.go:36-47</span>, <span class="cite">internal/trust/oauth2/web/middleware.go:115-131</span>, <span class="cite">internal/foundation/custom_role_authorization.go:189-198</span></li>
+      <li>Caller identity &amp; MCP plumbing: <span class="cite">internal/api2/get_caller_identity.go:33-51, 120-133</span>, <span class="cite">internal/api2/api2.go:199</span>, <span class="cite">internal/trust/oauth2/access/scopes.go:20-25</span>, <span class="cite">internal/trust/oauth2/resource.go:18-21</span>, <span class="cite">internal/trust/oauth2/web/dcr_handler.go:223-232</span>, <span class="cite">internal/trust/oauth2/web/well_known_handler.go:62-66</span>, <span class="cite">internal/trust/oauth2/client.go:60-91</span></li>
+      <li>Agents &amp; Vega: <span class="cite">internal/trust/oauth2/agents.go:18-44</span>, <span class="cite">internal/factory_tokens/internal/token_service/oauth_token.go:64-73</span>, <span class="cite">internal/factory_tokens/internal/token_service/main.go:59-62</span></li>
+      <li>Members / teams / tokens: <span class="cite">internal/accounts/account.go:1145-1181</span>, <span class="cite">internal/teams/domain/team.go:71-86</span>, <span class="cite">internal/access_tokens/access_tokens.go:115-121</span>, <span class="cite">internal/access_tokens/redis/finder.go</span></li>
+      <li>Org-switch precedent: <span class="cite">internal/accounts/account_lite.go:52-55</span>, <span class="cite">internal/api_internal/account_endpoints/account.go:646-654</span>, <span class="cite">internal/roles/action.go:118</span></li>
+      <li>Policy surfaces: <span class="cite">internal/roles/api/role_post.go:31-38</span>, <span class="cite">internal/api_shared/access_tokens/access_tokens_create.go:42-54</span>, <span class="cite">internal/access_summary/internal/service/service.go:150-205</span>, <span class="cite">static/ld/components/RoleBuilder/</span>, <span class="cite">static/ld/utils/policyUtils.tsx:222-258</span></li>
+      <li>Enforcement net &amp; its holes: <span class="cite">internal/foundation/middleware/access_checker_required/access_checker_required.go:31-44, 151-159, 190-198, 230-243</span></li>
+      <li>Foundation engine bridge: <span class="cite">internal/access_checker/auth_builders.go:22-44</span></li>
+      <li>Bulk pre-flight endpoint: <span class="cite">internal/authorization/internal/adapters/web/gen_api_handler.go:262-264</span></li>
     </ul>
   </section>
 
   <footer>
-    PRODUCED IN THE GONFALON REPO &mdash; VERIFIED AGAINST MAIN, NOV 19 2026
-    <span class="music-credit">MUSIC: <a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE</a> &mdash; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> &mdash; ALL RIGHTS RESERVED</span>
-    <span class="inspo-credit">AESTHETIC LINEAGE: <a href="https://masonlindroth.com/">HYLICS (MASON LINDROTH)</a> FOR THE CLAY LOOK &mdash; <a href="https://en.wikipedia.org/wiki/Jean_Giraud">MOEBIUS (JEAN GIRAUD)</a> FOR LIGNE CLAIRE INK OUTLINES &mdash; VAPORWAVE &amp; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> FOR PALETTE &amp; MOOD &mdash; VINYL LP PACKAGING FOR THE SIDE A/B + STEREO 33⅓ FRAMING &mdash; CLASSIC ORDERED DITHERING + FBM NOISE FOR THE SHADER TEXTURE</span>
+    PRODUCED IN THE GONFALON REPO &middot; VERIFIED AGAINST MAIN, NOV 19 2026
+    <span class="music-credit">MUSIC: <a href="https://barbercut.bandcamp.com/album/online">記憶ONLINE</a> &middot; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> &middot; ALL RIGHTS RESERVED</span>
+    <span class="inspo-credit">AESTHETIC LINEAGE: <a href="https://masonlindroth.com/">HYLICS (MASON LINDROTH)</a> FOR THE CLAY LOOK &middot; <a href="https://en.wikipedia.org/wiki/Jean_Giraud">MOEBIUS (JEAN GIRAUD)</a> FOR LIGNE CLAIRE INK OUTLINES &middot; VAPORWAVE &amp; <a href="https://macroblank.bandcamp.com/">MACROBLANK</a> FOR PALETTE &amp; MOOD &middot; VINYL LP PACKAGING FOR THE SIDE A/B + STEREO 33⅓ FRAMING &middot; CLASSIC ORDERED DITHERING + FBM NOISE FOR THE SHADER TEXTURE</span>
   </footer>
 </div>
 </div>
